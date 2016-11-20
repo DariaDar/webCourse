@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Добавить фанфик</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Inspire-Write-Publish</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Профиль<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/users/profile/:username">Мой профиль</a></li>
+                      <li><a href="/createfic">Добавить фанфик</a></li>
+                      <li><a href="#">Мои фанфики</a></li>
+                      <li><a href="/addpart">Добавить часть к фанфику</a></li>
+                      <li><a href="#">Найти фанфик</a></li>
+                      <li><a href="/profile/settings">Настройки профиля</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Правила</a></li>
+                <li><a href="#">О нас</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h2>ВНИМАНИЕ! На сайте запрещено публиковать чужие работы!</h2>
+
+    <div class='container'>
+        <div class='row'>
+            <div class='col-md-8'>
+                <form  id="form-create" action="/createfic" method="post">
+                    <!-- <form id="form-create"> -->
+                        <label>Название:</label>
+                        <input type='text' name='title' class='form-control' maxlength="200" />
+                        <label>Фэндом:</label>
+                        <input type='text' name='fandom' class='form-control' maxlength="100" />
+                        <label>Основные персонажи (пэйринг):</label>
+                        <input type='text' name='characters' class='form-control' maxlength="400" />
+                    <!-- </form>
+                    <form id="form-create"> -->
+                        <label>Размер:</label>
+                        <div class="radio">
+                            <label><input type="radio" name="size" value="Мини">Мини</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="size" value="Миди">Миди</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="size" value="Макси">Макси</label>
+                        </div>
+                    <!-- </form>
+                    <form id="form-create"> -->
+                        <label>Рейтинг:</label>
+                        <div class="radio">
+                            <label><input type="radio" name="rating" value="G">G</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="rating" value="PG-13">PG-13</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="rating" value="R">R</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="rating" value="NC-17">NC-17</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="rating" value="NC-21">NC-21</label>
+                        </div>
+                    <!-- </form>
+                    <form id="form-create"> -->
+                        <label>Жанры:</label>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Гет">Гет</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Джен">Джен</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Hurt/comfort">Hurt/comfort</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="POV">POV</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Ангст">Ангст</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Антиутопия">Антиутопия</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Детектив">Детектив</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Драма">Драма</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Занавесочная история">Занавесочная история</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Исторические эпохи">Исторические эпохи</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Любовь/Ненависть">Любовь/Ненависть</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Мистика">Мистика</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox"><input type="checkbox" name="genre" value="Мифические существа">Мифические существа</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre"  value="Нестандартная поэзия">Нестандартная поэзия</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox"name="genre"  value="Повседневность">Повседневность</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Пропущенная сцена">Пропущенная сцена</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Психология">Психология</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Романтика">Романтика</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Стёб">Стёб</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox"name="genre"  value="Стихи">Стихи</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Ужасы">Ужасы</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Учебные заведения">Учебные заведения</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Фантастика">Фантастика</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Философия">Философия</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Флафф">Флафф</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Фэнтези">Фэнтези</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Эксперимент">Эксперимент</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Экшн (action)">Экшн (action)</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-inline"><input type="checkbox" name="genre" value="Юмор">Юмор</label>
+                        </div>
+                    <!-- </form>
+                    <form id="form-create"> -->
+                        <label>Описание:</label>
+                        <textarea class="form-control" rows="5" name="description" maxlength="1000"></textarea>
+
+                        <label>Комментарий от автора:</label>
+                        <textarea class="form-control" rows="5" name="authComment" maxlength="2000"></textarea>
+
+                    <!-- </form> -->
+                      <button type='submit' class='btn btn-primary'>Сохранить и перейти к публикации</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- <div class='row'>
+    <form action='/create' method='POST'>
+      <div class="form-group">
+        <div class="col-xs-4">
+        <label>Название:</label>
+        <input type="text" class="form-control" name="title">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-xs-4">
+      <label>Фэндом:</label>
+      <input type="text" class="form-control" name="fandom">
+    </div>
+  </div>
+
+
+
+
+  </form>
+  </div> -->
+</body>
+
+</html>
