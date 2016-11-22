@@ -3,7 +3,6 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var busboyBodyParser = require('busboy-body-parser');
-var fs = require('fs');
 mongoose.Promise = global.Promise;
 
 
@@ -53,7 +52,6 @@ router.post('/createfic', function(req, res, next){
 	var description = req.body.description;
 	var authComment = req.body.authComment;
 	var user = req.session.user;
-	console.log(user);
 
 	var composition = new Composition({title: title, author: user._id, characters: characters, rating: rating, genre: genre, size: size, description: description, authComment: authComment});
 	composition.save(function(err){
@@ -99,28 +97,26 @@ router.get('/profile/settings', function(req, res, next){
 });
 
 router.post('/profile/settings', function(req, res, next){
-	//var about = req.query.about;
-	//	console.log(about);
-/*	console.log(req)
-	fs.readFile(req.files.image.path, function (err, data) {
-
-  	var newPath = __dirname + "/uploads/uploadedFileName";
-  	fs.writeFile(newPath, data, function (err) {
-    	res.redirect("back");
-  	});
-	});*/
-
 	var avaFile = req.files.image;
-	console.log(avaFile);
+	var about = req.body.about;
 	var base64String = avaFile.data.toString('base64');
 
-
-	/*var base64String = avaFile.data.toString('base64');
-	console.log(base64String);*/
 	var user = req.session.user;
-	//if(about === null) about = user.about;
-	//if(avaFile === null) avaFile = user.avatar;  about: about,
-	User.findOneAndUpdate({username: user.username}, {avatar: base64String}, function(err, user){
+	if(about === null) about = user.about;
+	if(avaFile === null) avaFile = user.avatar;
+	return  new Promise(function(resolve, reject){
+		User.findOneAndUpdate({username: user.username}, {about: about, avatar: base64String}, function(err, user){
+			if(err) return next(err);
+			if(user){
+				user.save(function(err){
+					if(err) return next(err);
+				});
+			}
+		});
+		resolve(res.redirect('/users/profile/:username'));
+	});
+
+	/*User.findOneAndUpdate({username: user.username}, {about: about, avatar: base64String}, function(err, user){
 		if(err) return next(err);
 		if(user){
 			user.save(function(err){
@@ -128,9 +124,32 @@ router.post('/profile/settings', function(req, res, next){
 			});
 			res.redirect('/users/profile/:username');
 		}
-	});
+	});*/
 
 
+});
+
+router.get('/story/:id', function(req, res, next){
+	var id = req.params.id;
+	// Composition.find({_id: id}, function(err, story){
+	// 	if(err) return next(err);
+	// 	if(story){
+	// 		return res.render('story', {story: story});
+	// 	}
+	// 	else{
+	// 		return res.send(404);
+	// 	}
+	// });
+
+	Composition.findOne({ _id: id }).populate('author').exec(function (err, story) {
+  if (err) return handleError(err);
+  if(story){
+		return res.render('story', {story: story, author: story.author});
+	}
+	else{
+		return res.send(404);
+	}
+});
 });
 
 module.exports = router;

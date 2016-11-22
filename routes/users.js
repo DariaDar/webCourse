@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connect('mongodb://localhost/mydb');
 
 var User = require('../models/model');
+var Composition = require('../models/composition');
 //>>>>>>> АВТОРИЗАЦИЯ<<<<<<<<<<<<<
 router.post('/signin', function(req, res, next){
 	var username = req.body.username;
@@ -63,23 +64,26 @@ router.get('/logout', function(req, res, next) {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 router.get('/profile/:username', function(req, res, next){
-		if (req.session.user){
-			var user = req.session.user;
-			res.render('profile', {user: user});
-		}
-		else{
-			let username = req.params.username;
-			User.findOne({username:username}, function(err, user){
+		// if (req.session.user){
+		// 	var user = req.session.user;
+		// 	res.render('profile', {user: user, stories: user.stories});
+		// }
+		// else{
+			var username = req.params.username;
+			var user = User.findOne({username:username}, function(err, user){
 				if(err) return next(err);
-				if(user){
-					res.render('profile', {user: user});
-				}
+				if(!user) return res.send(404);
 			});
-		}
-})
+		var story = Composition.find({author: user._id}, function(err, st){
+			if(err) return next(err);
+			if(!st) return res.send(404);
+		});
+		res.render('profile', {user: user, stories: story});
 
-router.get('/profile', function(req, res, next){
+});
+
+/*router.get('/profile', function(req, res, next){
 		res.render('profile', {title:'Profile'});
-})
+})*/
 
 module.exports = router;

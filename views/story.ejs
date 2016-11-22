@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= story.title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+
+    <div class='back'>
+      <div class='photo'>
+        <img src='http://orig09.deviantart.net/5acc/f/2014/056/0/3/the_book_thief_by_thatmarauderprongs-d77xsek.png'/>
+      </div>
+      <div class='content'>
+        <p>
+          <br/><strong>Персонажи: </strong><%= story.characters %>
+          <br/><strong>Рейтинг: </strong><%= story.rating %>
+          <br /><strong>Жанр: </strong><%= story.genre %>
+          <br/><strong>Размер: </strong><%= story.size %>
+          <br/><strong>Статус: </strong><%= story.status %>
+          <br /><br /><strong>Description: </strong><%= story.description %>
+           <br/><strong>Комментарий от автора: </strong><%= story.authComment %>
+        </p>
+      </div>
+
+    </div>
+    <div class='text'>
+      <p>
+        <%= story.text %>
+      </p>
+
+    </div>
+
+
+  </body>
+</html>
