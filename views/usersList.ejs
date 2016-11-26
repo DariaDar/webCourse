@@ -25,15 +25,30 @@
                 <li><a href="#">О нас</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <li>
+                <form action="/search" method="post" class="navbar-search pull-left">
+                <span class="glyphicon glyphicon-search"></span>
+                  <input type="text" name="search" class="search-query" placeholder="Найти...">
+                </form>
+              </li>
                 <li>
                     <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
                 </li>
             </ul>
         </div>
     </nav>
+    <h1>Добро пожаловать, Админ!</h1>
     <h2>Список пользователей: </h2>
 
-
+    <ul>
+    <% users.forEach(function(user) { %>
+        <li><a href="/users/profile/<%= user.username %>"> <%= user.username %> </a>
+          <form action="/users/<%= user._id %>/delete" method="delete">
+              <button type='submit' class='btn btn-primary'>Удалить пользователя <%= user.username %></button>
+          </form>
+        </li>
+    <% }); %>
+</ul>
 
 
     <script src="js/scripts.js"></script>

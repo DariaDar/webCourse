@@ -35,16 +35,28 @@ router.post('/login', function(req, res, next){
 	console.log(username, password);
 	User.findOne({username: username}, function(err, user){
 		if(user){
-			if(user.role === 'user')
-				req.session.user = user;//{id: user._id, name: user.name}
-			 else if(user.role === 'admin')
-			 	req.session.admin = user;
 			if(user.checkPassword(password)){
 				console.log("Success password!");
-				if(user.role === 'user')
-					res.render('profile', {user: user});
-				else if(user.role === 'admin')
-					res.render('userslist', {admin: user});
+				if(user.role === 'user'){
+					req.session.user = user;
+					Composition.find({author:user._id}, function(err, stories){
+						if(err) return next(err);
+						if(stories){
+							res.render('profile', {user: user, stories: stories});
+						}
+					});
+
+				}
+
+				else if(user.role === 'admin'){
+					req.session.admin = user;
+					User.find({}, function(err, users){
+				  if(users){
+				 		res.render('usersList', {users: users});
+					}
+				    else if(err) return next(err);
+		      });
+				}
 			}
 			else if(err){
 				return next(err);
@@ -64,26 +76,35 @@ router.get('/logout', function(req, res, next) {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 router.get('/profile/:username', function(req, res, next){
-		// if (req.session.user){
-		// 	var user = req.session.user;
-		// 	res.render('profile', {user: user, stories: user.stories});
-		// }
-		// else{
 			var username = req.params.username;
-			var user = User.findOne({username:username}, function(err, user){
+			 User.findOne({username:username}, function(err, user){
 				if(err) return next(err);
 				if(!user) return res.send(404);
+				if(user){
+				 	Composition.find({author: user._id}, function(err, stories){
+					if(err) return next(err);
+					if(!stories) return res.send(404);
+					else{
+						res.render('profile', {user: user, stories: stories});
+					}
+				});
+				}
 			});
-		var story = Composition.find({author: user._id}, function(err, st){
-			if(err) return next(err);
-			if(!st) return res.send(404);
-		});
-		res.render('profile', {user: user, stories: story});
-
 });
 
-/*router.get('/profile', function(req, res, next){
-		res.render('profile', {title:'Profile'});
-})*/
+router.delete('/users/:id/delete', function(req, res, next){
+	var id = req.params.id;
+	console.log(id);
+	User.findById(id, function(err, user){
+		if(err) return next(err);
+		if(!user) return res.send(404);
+		else{
+			user.remove(function(err){
+        if(err) return next(err);
+        else res.send(200);
+      });
+		}
+	});
+});
 
 module.exports = router;

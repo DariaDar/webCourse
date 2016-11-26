@@ -16,7 +16,7 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Inspire-Write-Publish</a>
+      <a class="navbar-brand" href="/">Inspire-Write-Publish</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
@@ -33,6 +33,12 @@
 			<li><a href="#">О нас</a></li>
     </ul>
      <ul class="nav navbar-nav navbar-right">
+			 <li>
+				 <form action="/search" method="post" class="navbar-search pull-left">
+				 <span class="glyphicon glyphicon-search"></span>
+					 <input type="text" name="search" class="search-query" placeholder="Найти...">
+				 </form>
+			 </li>
       <li>
 				<a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
 			</li>
@@ -57,23 +63,25 @@
 
 </div>
 
-		<!-- <div class='container'>
-			<div class='page-header'>
-				<h1>Users</h1>
-			</div>
-			<div class='row'>
-				<div class='col-md-6'>
-					<form action='/upload_avatar' method='POST' enctype="multipart/form-data">
-						<label>Username:</label>
-						<input type='text' name='username' class='form-control' value='user' />
-						<label>Avatar:</label>
-						<input type='file' name='avatar' />
-						<br />
-						<button type='submit' class='btn btn-primary'>Upload</button>
-					</form>
-				</div>
-			</div>
-		</div> -->
+<ul>
+<div>
+	<% stories.forEach(function(story) { %>
+			<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
+				<p>
+					<b>Фендом: </b><%= story.fandom %>
+					<br/><b>Персонажи: </b><%= story.characters %>
+					<br/><b>Рейтинг: </b><%= story.rating %>
+					<br /><b>Жанр: </b><%= story.genre %>
+					<br/><b>Размер: </b><%= story.size %>
+					<br/><b>Статус: </b><%= story.status %>
+					<br /><br /><b>Описание: </b><%= story.description %>
+				</p>
+			</li>
+	<% }); %>
+	</div>
+</ul>
+
+
 		<script src="js/scripts.js"></script>
 	</body>
 	</html>

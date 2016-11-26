@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Профиль<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="/users/profile/:username">Мой профиль</a></li>
+                      <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
                       <li><a href="/createfic">Добавить фанфик</a></li>
                       <li><a href="#">Мои фанфики</a></li>
                       <li><a href="/addpart">Добавить часть к фанфику</a></li>
@@ -31,6 +31,12 @@
                 <li><a href="#">О нас</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <li>
+                <form action="/search" method="post" class="navbar-search pull-left">
+                <span class="glyphicon glyphicon-search"></span>
+                  <input type="text" name="search" class="search-query" placeholder="Найти...">
+                </form>
+              </li>
                 <li>
                     <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
                 </li>

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Главная</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -19,24 +19,52 @@
       <ul class="nav navbar-nav">
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Профиль<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/users/profile/:username">Мой профиль</a></li>
+            <li><a href="#">Мой профиль</a></li>
             <li><a href="/createfic">Добавить фанфик</a></li>
   					<li><a href="#">Мои фанфики</a></li>
-  					<li><a href="/addpart">Добавить часть к фанфику</a></li>
+  					<li><a href="/addpart">Изменить фанфик</a></li>
             <li><a href="#">Найти фанфик</a></li>
-  					<li><a href="/home/settings">Настройки профиля</a></li>
+  					<li><a href="/profile/settings">Настройки профиля</a></li>
           </ul>
         </li>
         <li><a href="#">Правила</a></li>
   			<li><a href="#">О нас</a></li>
       </ul>
        <ul class="nav navbar-nav navbar-right">
+         <li>
+           <form action="/search" method="post" class="navbar-search pull-left">
+           <span class="glyphicon glyphicon-search"></span>
+             <input type="text" name="search" class="search-query" placeholder="Найти...">
+           </form>
+         </li>
         <li>
   				<a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
   			</li>
       </ul>
     </div>
   </nav>
+
+  <ul>
+  <div>
+  	<% stories.forEach(function(story) { %>
+  			<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
+  				<p>
+            <b>Автор: </b><a href="/users/profile/<%= story.author.username %> "><%= story.author.username %></a>
+  					<br/><b>Фендом: </b><%= story.fandom %>
+  					<br/><b>Персонажи: </b><%= story.characters %>
+  					<br/><b>Рейтинг: </b><%= story.rating %>
+  					<br /><b>Жанр: </b><%= story.genre %>
+  					<br/><b>Размер: </b><%= story.size %>
+  					<br/><b>Статус: </b><%= story.status %>
+  					<br /><br /><b>Описание: </b><%= story.description %>
+  				</p>
+  			</li>
+  	<% }); %>
+  	</div>
+  </ul>
+
+
+
 
   </body>
 </html>

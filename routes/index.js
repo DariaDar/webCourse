@@ -13,11 +13,16 @@ var Composition = require('../models/composition');
 
 router.get('/', function(req, res, next) {
 	if(req.session.user){
-		var data = {
-			title: 'Моя страница',
-			user : req.session.user
-		}
-		res.render('main', data);
+		Composition.find({}).populate('author').exec(function(err, stories){
+			if(err) return next(err);
+			if(stories){
+				res.render('main', {stories:stories, author: stories.author});
+			}
+			else{
+				res.send("There is no story on the site :(" );
+			}
+		})
+
 	} else {
 		var data = {
 		  	title: 'Пиши-Вдохновляйся-Твори',
@@ -29,7 +34,7 @@ router.get('/', function(req, res, next) {
 //--------------------Создать фф------------------------------
 router.get('/createfic', function(req, res, next){
 	if(req.session.user){
-		res.render('createfic');
+		res.render('createfic', {user: req.session.user});
 	}
 	else res.render('index');
 
@@ -37,7 +42,7 @@ router.get('/createfic', function(req, res, next){
 
 router.get('/addpart', function(req, res, next){
 	if(req.session.user){
-		res.render('addpart');
+		res.render('addpart', {user: req.session.user});
 	}
 	else res.render('index');
 })
@@ -53,12 +58,12 @@ router.post('/createfic', function(req, res, next){
 	var authComment = req.body.authComment;
 	var user = req.session.user;
 
-	var composition = new Composition({title: title, author: user._id, characters: characters, rating: rating, genre: genre, size: size, description: description, authComment: authComment});
+	var composition = new Composition({title: title, author: user._id, fandom: fandom, characters: characters, rating: rating, genre: genre, size: size, description: description, authComment: authComment});
 	composition.save(function(err){
 		if(err) return next(err);
 	});
 
-	User.findOne({username: user.username}, function(err, user){
+	var us = User.findOne({username: user.username}, function(err, user){
 		if(user){
 			user.stories.push(composition);
 			user.save(function(err){
@@ -71,26 +76,47 @@ router.post('/createfic', function(req, res, next){
 		}
 	})
 
-	res.render('addpart', {name: "title"});
+	res.render('addpart', {name: "title", user: us});
 });
 
 router.post('/addpart', function(req, res, next){
-var user = req.session.user;
+let user = req.session.user;
 var name = req.body.name;
 var st = req.body.status;
 var text = req.body.text;
 
-	Composition.findOneAndUpdate({author: user._id, title: name}, {status: req.body.status, text: req.body.text}, function(err){
+//var text = text1.replace(/\n|\r\n|\r/g, '<br/>');//replace(/\n/gi, "<br/>");
+
+	Composition.findOneAndUpdate({author: user._id, title: name}, {status: st, text: text}, function(err){
 		if(err){
 			console.log("Нет такого фанфика");
 			return next(err);
 		}
 	});
-	res.render('profile', {user: user});
-})
+	var stories = Composition.find({author: user._id}, function(err, stories){
+		if(err) return next(err);
+		if(stories){
+			res.render('profile', {user: user, stories: stories});
+		}
+		else return res.send(500);
+	});
+
+});
 //------------------------------------------------------------------------------
 
 // SETTINGS
+
+function authorStories(id){
+	var stories = Composition.find({author: id}, function(err, stories){
+		if(err) return next(err);
+		if(stories){
+			return stories;
+		}
+		else return res.send(500);
+	});
+}
+
+
 router.get('/profile/settings', function(req, res, next){
 	if(req.session.user) res.render('settings');
 	else res.render('index');
@@ -113,36 +139,14 @@ router.post('/profile/settings', function(req, res, next){
 				});
 			}
 		});
-		resolve(res.redirect('/users/profile/:username'));
+		resolve(res.redirect('/users/profile/' + user.username));
 	});
-
-	/*User.findOneAndUpdate({username: user.username}, {about: about, avatar: base64String}, function(err, user){
-		if(err) return next(err);
-		if(user){
-			user.save(function(err){
-				if(err) return next(err);
-			});
-			res.redirect('/users/profile/:username');
-		}
-	});*/
-
-
 });
 
 router.get('/story/:id', function(req, res, next){
 	var id = req.params.id;
-	// Composition.find({_id: id}, function(err, story){
-	// 	if(err) return next(err);
-	// 	if(story){
-	// 		return res.render('story', {story: story});
-	// 	}
-	// 	else{
-	// 		return res.send(404);
-	// 	}
-	// });
-
 	Composition.findOne({ _id: id }).populate('author').exec(function (err, story) {
-  if (err) return handleError(err);
+  if (err) return next(err);
   if(story){
 		return res.render('story', {story: story, author: story.author});
 	}
@@ -150,6 +154,19 @@ router.get('/story/:id', function(req, res, next){
 		return res.send(404);
 	}
 });
+});
+
+
+router.post('/search', function(req, res, next){
+	var ask = req.body.search;
+	console.log(ask);
+	Composition.find({title: ask}, function(err, stories){
+		if(err) return next(err);
+		if(stories){
+			return res.render('main', {stories: stories});
+		}
+		else return res.send(404);
+	});
 });
 
 module.exports = router;

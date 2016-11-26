@@ -109,7 +109,7 @@ router.get('/stories/:id', function(req, res, next){
 });
 
 router.delete('/users/:id', function(req, res, next){
-  Users.findById(req.params.id, function(err, user){
+  User.findById(req.params.id, function(err, user){
     if(err) return next(err);
     if(user){
       user.remove(function(err){

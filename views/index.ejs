@@ -20,33 +20,37 @@
 				<li><a href="#">О нас</a></li>
 	    </ul>
 			<ul class="nav navbar-nav navbar-right">
-		 <li><a href="/authorization"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-		 <li><a href="/authorization"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		 <!-- <li><a href="/authorization"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+		 <li><a href="/authorization"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> -->
+		 <li>
+			 <a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a></li>
+		 </li>
 	 </ul>
  </div>
 </nav>
 
 
-
+<h1>Inspire-Write-Publish</h1>
 	 <div class='container'>
 		<div class='row'>
 			<div class='col-md-8'>
 				<form action='/users/login' method='POST'>
-					<label>Username:</label>
+					<label>Имя пользователя:</label>
 					<input type='text' name='username' class='form-control' maxlength="50"/>
-					<label>Password:</label>
+					<label>Пароль:</label>
 					<input type='password' name='password' class='form-control' maxlength="100" />
-					<button type='submit' class='btn btn-primary'>Login</button>
+					<button type='submit' class='btn btn-primary'>Войти</button>
 				</form>
 			</div>
 
+
 			<div class='col-md-8'>
 				<form action='/users/signin' method='POST'>
-					<label>Username:</label>
+					<label>Имя пользователя:</label>
 					<input type='text' name='username' class='form-control' maxlength="50"/>
-					<label>Password:</label>
+					<label>Пароль:</label>
 					<input type='password' name='password' class='form-control'maxlength="100" />
-					<button type='submit' class='btn btn-primary'>Sign in</button>
+					<button type='submit' class='btn btn-primary'>Зарегистрироваться</button>
 				</form>
 			</div>
 			<div class='col-md-4'>

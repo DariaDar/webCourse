@@ -17,10 +17,10 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Профиль<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="/users/profile/:username">Мой профиль</a></li>
+                      <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
                       <li><a href="/createfic">Добавить фанфик</a></li>
                       <li><a href="#">Мои фанфики</a></li>
-                      <li><a href="/addpart">Добавить часть к фанфику</a></li>
+                      <li><a href="/addpart">Изменить фанфик</a></li>
                       <li><a href="#">Найти фанфик</a></li>
                       <li><a href="/profile/settings">Настройки профиля</a></li>
                     </ul>
@@ -29,6 +29,12 @@
                 <li><a href="#">О нас</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <li>
+                <form action="/search" method="post" class="navbar-search pull-left">
+                <span class="glyphicon glyphicon-search"></span>
+                  <input type="text" name="search" class="search-query" placeholder="Найти...">
+                </form>
+              </li>
                 <li>
                     <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
                 </li>
@@ -39,10 +45,10 @@
 <div class="container">
   <form action='/addpart' method="post">
     <div class="form-group">
-       <label>К какой работе вы хотите добавить часть:</label>
+       <label>Какую работу вы хотите изменить:</label>
         <input type='text' name='name' class='form-control' maxlength="100" />
       <label for="comment">Ваш текст:</label>
-      <textarea class="form-control" rows="6" lines="12" name="text" maxlength="50000000"></textarea>
+      <textarea class="form-control" rows="6" lines="12" name="text" wrap='hard' cols="10"></textarea>
     </div>
 
 

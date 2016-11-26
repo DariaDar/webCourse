@@ -23,8 +23,7 @@ var User = new Schema({
     //default: '/img/default.jpg'
   },
   about: {
-    type: String,
-    required: true
+    type: String
   }
 });
 
