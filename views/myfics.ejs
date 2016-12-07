@@ -2,8 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Настройки профиля</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мой архивъ</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -41,16 +40,24 @@
         </div>
     </nav>
     <div class="container">
-<!-- enctype="multipart/form-data" -->
-    <form action='/profile/settings' enctype="multipart/form-data" method='POST' >
-					<label>Загрузить аватар:</label>
-					<input type='file' accept="image/*" name='image' />
-					<br />
-           <label>О себѣ:</label>
-          <textarea class="form-control" rows="5" name="about"></textarea>
-					<input type='submit' class='btn btn-primary' value="Сохранить и вернуться на страницу профиля" />
-				</form>
-    </div>
+      <h2>Мой архивъ:</h2>
+      <ul>
+      <div>
+      	<% stories.forEach(function(story) { %>
+      			<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
+      				<p>
+      					<form action="/<%= story._id %>/addpart" method="get">
+                  <button type="submit" class="btn btn-info">Измѣнить:</button>
+                </form>
+                <form action="/deletefic/<%= story._id %>" method="post">
+                  <button type="submit" class="btn btn-danger">Сжечь сіе творѣние</button>
+                </form>
+      				</p>
+      			</li>
+      	<% }); %>
+      	</div>
+      </ul>
 
+    </div>
   </body>
 </html>

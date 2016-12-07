@@ -7,79 +7,82 @@
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel='stylesheet' href='/stylesheets/style.css' />
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 	</head>
 
 	<body>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">Inspire-Write-Publish</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
-          <li><a href="/createfic">Добавить фанфик</a></li>
-					<li><a href="#">Мои фанфики</a></li>
-					<li><a href="/addpart">Добавить часть к фанфику</a></li>
-          <li><a href="#">Найти фанфик</a></li>
-					<li><a href="/profile/settings">Настройки профиля</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Правила</a></li>
-			<li><a href="#">О нас</a></li>
-    </ul>
-     <ul class="nav navbar-nav navbar-right">
-			 <li>
-				 <form action="/search" method="post" class="navbar-search pull-left">
-				 <span class="glyphicon glyphicon-search"></span>
-					 <input type="text" name="search" class="search-query" placeholder="Найти...">
-				 </form>
-			 </li>
-      <li>
-				<a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
-			</li>
-    </ul>
-  </div>
-</nav>
+		<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+						<div class="navbar-header">
+								<a class="navbar-brand" href="/homepage">Inspire-Write-Publish</a>
+						</div>
+						<ul class="nav navbar-nav">
+								<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
+											<li><a href="/createfic">Добавить фанфик</a></li>
+											<li><a href="/myfics">Мой архивъ</a></li>
+											<li><a href="/profile/settings">Настройки профиля</a></li>
+										</ul>
+								</li>
+
+								<li><a href="#">Правила</a></li>
+								<li><a href="#">О нас</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li>
+								<form action="/search" method="post" class="navbar-search pull-left">
+									<input type="text" name="search" class="form-control" placeholder="Найти...">
+								</form>
+							</li>
+								<li>
+										<a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
+								</li>
+						</ul>
+				</div>
+		</nav>
 
 
-<div class="info">
-	<h2><%= user.username %></h2>
-	<label>О себе:</label>
-	<p>
-		<%= user.about %>
-	</p>
+<div class="container">
+	<div class="info">
+		<h2><%= user.username %></h2>
+		<label>О себѣ:</label>
+		<p>
+			<%= user.about %>
+		</p>
 
-	<img src='data:image/jpg;base64,<%= user.avatar %>' width=100 height=100 />
+		<img src='data:image/jpg;base64,<%= user.avatar %>' width=100 height=100 />
 
-	<h3>Работы автора: </h3>
-	<div class='story'>
+		<h3>Работы автора: </h3>
+		<div class='story'>
+
+		</div>
 
 	</div>
+
+	<ul>
+	<div>
+		<% stories.forEach(function(story) { %>
+				<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
+					<p>
+						<b>Фендом: </b><%= story.fandom %>
+						<br/><b>Персонажи: </b><%= story.characters %>
+						<br/><b>Рейтинг: </b><%= story.rating %>
+						<br /><b>Жанр: </b><%= story.genre %>
+						<br/><b>Размер: </b><%= story.size %>
+						<br/><b>Статус: </b><%= story.status %>
+						<br /><br /><b>Описание: </b><%= story.description %>
+					</p>
+				</li>
+		<% }); %>
+		</div>
+	</ul>
 
 </div>
 
-<ul>
-<div>
-	<% stories.forEach(function(story) { %>
-			<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
-				<p>
-					<b>Фендом: </b><%= story.fandom %>
-					<br/><b>Персонажи: </b><%= story.characters %>
-					<br/><b>Рейтинг: </b><%= story.rating %>
-					<br /><b>Жанр: </b><%= story.genre %>
-					<br/><b>Размер: </b><%= story.size %>
-					<br/><b>Статус: </b><%= story.status %>
-					<br /><br /><b>Описание: </b><%= story.description %>
-				</p>
-			</li>
-	<% }); %>
-	</div>
-</ul>
 
 
 		<script src="js/scripts.js"></script>

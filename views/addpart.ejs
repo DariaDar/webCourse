@@ -2,9 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Добавить часть</title>
+    <title>Исправить документъ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
@@ -12,27 +13,25 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Inspire-Write-Publish</a>
+                <a class="navbar-brand" href="/homepage">Inspire-Write-Publish</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Профиль<span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
                       <li><a href="/createfic">Добавить фанфик</a></li>
-                      <li><a href="#">Мои фанфики</a></li>
-                      <li><a href="/addpart">Изменить фанфик</a></li>
-                      <li><a href="#">Найти фанфик</a></li>
+                      <li><a href="/myfics">Мой архивъ</a></li>
                       <li><a href="/profile/settings">Настройки профиля</a></li>
                     </ul>
                 </li>
+
                 <li><a href="#">Правила</a></li>
                 <li><a href="#">О нас</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li>
                 <form action="/search" method="post" class="navbar-search pull-left">
-                <span class="glyphicon glyphicon-search"></span>
-                  <input type="text" name="search" class="search-query" placeholder="Найти...">
+                  <input type="text" name="search" class="form-control" placeholder="Найти...">
                 </form>
               </li>
                 <li>
@@ -45,22 +44,23 @@
 <div class="container">
   <form action='/addpart' method="post">
     <div class="form-group">
-       <label>Какую работу вы хотите изменить:</label>
-        <input type='text' name='name' class='form-control' maxlength="100" />
-      <label for="comment">Ваш текст:</label>
+       <label>Какое произвѣдение будетъ исправлено: </label> <i><%= story.title %></i>
+        <input type="hidden" name="name" value="<%= story.title %>">
+       <br/>
+      <label for="comment">Что Вашей душеньке угодно сочинить:</label>
       <textarea class="form-control" rows="6" lines="12" name="text" wrap='hard' cols="10"></textarea>
     </div>
 
 
-    <label>Текущий статус работы:</label>
+    <label>Текущий статусъ работы:</label>
     <div class="radio">
-        <label><input type="radio" name="status" value="В процессе">В процессе</label>
+        <label><input type="radio" name="status" value="В процессе">Въ процессе</label>
     </div>
     <div class="radio">
-        <label><input type="radio" name="status" value="Завершен">Завершен</label>
+        <label><input type="radio" name="status" value="Завершен">Оконченъ</label>
     </div>
 
-      <button type='submit' class='btn btn-primary'>Опубликовать</button>
+      <button type='submit' class='btn btn-primary'>Выставить на всеобщее обозрѣние</button>
   </form>
 </div>
 

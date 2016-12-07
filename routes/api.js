@@ -63,34 +63,37 @@ router.post('/stories', function(req, res, next){
 	});
 });
 
-router.post('/addStoryToAuth', function(req, res, next){
-  var username = req.body.username;
-  var title = req.body.title;
-  var story = Composition.findOne({title: title}, function(err, st){
-    if(err) return next(err);
-    else if(!story){
-      res.send("This story doesn't exist.");
-    }
-  });
-
-  var user = User.findOne({username: username}, function(err, user){
-    if(err) return next(err);
-    else if(user){
-      user.push(story);
-      res.send("Story was added.");
-    }
-    else res.send("This user doesn't exist");
-  });
-
-  Composition.findOneAndUpdate({title: title}, {author: user._id}, function(err, st){
-    if(err) return next(err);
-    else{
-      st.save(function(err){
-        if(err) return next(err);
-      });
-    }
-  });
-});
+// router.post('/addStoryToAuth', function(req, res, next){
+//   var username = req.body.username;
+//   var title = req.body.title;
+//   var story = Composition.findOne({title: title}, function(err, st){
+//     if(err) return next(err);
+//     else if(!story){
+//       res.send("This story doesn't exist.");
+//     }
+//   });
+//
+//   var user = User.findOne({username: username}, function(err, user){
+//     if(err) return next(err);
+//     else if(user){
+//       user.stories.push(story);
+//       user.save(function(err){
+//         if(err) return next(err);
+//       });
+//       res.send("Story was added.");
+//     }
+//     else res.send("This user doesn't exist");
+//   });
+//
+//   Composition.findOneAndUpdate({title: title}, {author: user._id}, function(err, st){
+//     if(err) return next(err);
+//     else{
+//       st.save(function(err){
+//         if(err) return next(err);
+//       });
+//     }
+//   });
+// });
 
 router.get('/users/:id', function(req, res, next){
   User.findById(req.params.id, function(err, user){

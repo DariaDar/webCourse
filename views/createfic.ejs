@@ -6,47 +6,47 @@
     <title>Добавить фанфик</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Inspire-Write-Publish</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Профиль<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
-                      <li><a href="/createfic">Добавить фанфик</a></li>
-                      <li><a href="#">Мои фанфики</a></li>
-                      <li><a href="/addpart">Добавить часть к фанфику</a></li>
-                      <li><a href="#">Найти фанфик</a></li>
-                      <li><a href="/profile/settings">Настройки профиля</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Правила</a></li>
-                <li><a href="#">О нас</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form action="/search" method="post" class="navbar-search pull-left">
-                <span class="glyphicon glyphicon-search"></span>
-                  <input type="text" name="search" class="search-query" placeholder="Найти...">
-                </form>
+  <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+          <div class="navbar-header">
+              <a class="navbar-brand" href="/homepage">Inspire-Write-Publish</a>
+          </div>
+          <ul class="nav navbar-nav">
+              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
+                    <li><a href="/createfic">Добавить фанфик</a></li>
+                    <li><a href="/myfics">Мой архивъ</a></li>
+                    <li><a href="/profile/settings">Настройки профиля</a></li>
+                  </ul>
               </li>
-                <li>
-                    <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
-    <h2>ВНИМАНИЕ! На сайте запрещено публиковать чужие работы!</h2>
+              <li><a href="#">Правила</a></li>
+              <li><a href="#">О нас</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <form action="/search" method="post" class="navbar-search pull-left">
+                <input type="text" name="search" class="form-control" placeholder="Найти...">
+              </form>
+            </li>
+              <li>
+                  <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+
+
 
     <div class='container'>
+      <h2>ВНИМАНИЕ! На сайте запрещено публиковать чужие работы!</h2>
         <div class='row'>
             <div class='col-md-8'>
                 <form  id="form-create" action="/createfic" method="post">
@@ -192,27 +192,6 @@
 
         </div>
     </div>
-    <!-- <div class='row'>
-    <form action='/create' method='POST'>
-      <div class="form-group">
-        <div class="col-xs-4">
-        <label>Название:</label>
-        <input type="text" class="form-control" name="title">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="col-xs-4">
-      <label>Фэндом:</label>
-      <input type="text" class="form-control" name="fandom">
-    </div>
-  </div>
-
-
-
-
-  </form>
-  </div> -->
 </body>
 
 </html>

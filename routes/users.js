@@ -68,7 +68,7 @@ router.post('/login', function(req, res, next){
 })
 
 router.get('/logout', function(req, res, next) {
-	if (req.session.user) {
+	if (req.session.user || req.session.admin) {
 		delete req.session.user;
 		res.redirect('/');
 	}
@@ -92,19 +92,22 @@ router.get('/profile/:username', function(req, res, next){
 			});
 });
 
-router.delete('/users/:id/delete', function(req, res, next){
-	var id = req.params.id;
-	console.log(id);
-	User.findById(id, function(err, user){
-		if(err) return next(err);
-		if(!user) return res.send(404);
-		else{
-			user.remove(function(err){
-        if(err) return next(err);
-        else res.send(200);
-      });
-		}
-	});
+router.post('/:id/delete', function(req, res, next){
+	if(req.session.user || req.session.admin){
+		var id = req.params.id;
+		console.log(id);
+		User.findById(id, function(err, user){
+			if(err) return next(err);
+			if(!user) return res.send(404);
+			else{
+				user.remove(function(err){
+	        if(err) return next(err);
+	        else res.send(200);
+	      });
+			}
+		});
+	}
+
 });
 
 module.exports = router;

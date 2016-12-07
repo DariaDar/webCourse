@@ -1,0 +1,59 @@
+body{
+  background-image: url(https://img2.goodfon.ru/original/1366x768/a/92/tekstura-metall-seryy-fon.jpg);
+  background-size: 100%;
+  margin: 0;
+}
+h1 {
+  color: black;
+  font-style: italic;
+  font-family:'Tangerine', cursive;
+  font-size: 75px;
+  text-align:center;
+  text-shadow: 2px 2px 3px rgba(255,255,255,0.1);
+  margin: 1% 1%;
+}
+
+.back{
+  background-color: white;
+  background-image: url(http://images.ua.prom.st/351312056_w640_h640_tfsh_3_0385.jpg);
+  position: relative;
+  height: 70%;
+  width: 80%;
+  margin: 1% 10%;
+  box-shadow:  0px 0px 38px 1px rgba(0,0,0,0.75);
+}
+.back .photo{
+  position: absolute;
+  background-size: cover;
+  height: auto;
+  width: auto;
+  margin: 3% 5%;
+}
+.back .photo img{
+  height: 400px;
+  width: 400px;
+}
+
+.back > .text{
+  position: absolute;
+  height: 70%;
+  weight: 400px;
+  background-color: rgba(255, 255, 255, 0.82);
+  box-shadow:  0px 0px 38px 1px rgba(0,0,0,0.75);
+  margin: 5% 5%;
+  left:45%;
+  right: 1%;
+}
+
+.back .text p{
+  text-align: left;
+  font-family: Indie Flower;
+  font-size: auto;
+}
+
+
+.back .composition{
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.82);
+  bottom: 1%;
+}

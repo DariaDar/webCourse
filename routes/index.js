@@ -6,27 +6,44 @@ var busboyBodyParser = require('busboy-body-parser');
 mongoose.Promise = global.Promise;
 
 
+
 //var db = mongoose.connect('mongodb://localhost/mydb');
 
 var User = require('../models/model');
 var Composition = require('../models/composition');
+
+router.get('/homepage', function(req, res, next){
+	Composition.find({}).populate('author').exec(function(err, stories){
+		if(err) {
+			return next(err);
+		}
+		if(stories){
+			//var user = req.session.user;
+			res.render('homePage', {stories:stories, author: stories.author});
+		}
+		else{
+			res.send("There is no story on the site" );
+		}
+	});
+});
 
 router.get('/', function(req, res, next) {
 	if(req.session.user){
 		Composition.find({}).populate('author').exec(function(err, stories){
 			if(err) return next(err);
 			if(stories){
-				res.render('main', {stories:stories, author: stories.author});
+				res.render('homePage', {stories:stories, user: req.session.user, author: stories.author});
 			}
 			else{
-				res.send("There is no story on the site :(" );
+				res.send("There is no story on the site" );
 			}
-		})
-
+		});
 	} else {
 		var data = {
 		  	title: 'Пиши-Вдохновляйся-Твори',
+				user: req.session.user
 		}
+		console.log("Hello");
 		res.render('index', data);
 	}
 });
@@ -36,15 +53,36 @@ router.get('/createfic', function(req, res, next){
 	if(req.session.user){
 		res.render('createfic', {user: req.session.user});
 	}
-	else res.render('index');
+	else res.render('index', {user: req.session.user});
 
 })
 
-router.get('/addpart', function(req, res, next){
+router.get('/:id/addpart', function(req, res, next){
 	if(req.session.user){
-		res.render('addpart', {user: req.session.user});
+		Composition.findOne({_id: req.params.id}, function(err, story){
+			if(err) return next(err);
+			if(story){
+				return res.render('addpart', {user: req.session.user, story: story});
+			}
+			else{
+				res.send(404);
+			}
+		});
 	}
-	else res.render('index');
+	else res.render('index', {user: req.session.user});
+})
+
+router.get('/myfics', function(req, res, next){
+	var user = req.session.user;
+	if(user){
+		Composition.find({author: user._id}, function(err, stories){
+			if(err) return next(err);
+			if(stories){
+				return res.render('myfics', {user: user, stories: stories});
+			}
+		})
+	}
+	else res.render('index', {user: req.session.user});
 })
 
 router.post('/createfic', function(req, res, next){
@@ -59,7 +97,7 @@ router.post('/createfic', function(req, res, next){
 	var user = req.session.user;
 
 	var composition = new Composition({title: title, author: user._id, fandom: fandom, characters: characters, rating: rating, genre: genre, size: size, description: description, authComment: authComment});
-	composition.save(function(err){
+	Composition.save(function(err){
 		if(err) return next(err);
 	});
 
@@ -76,7 +114,7 @@ router.post('/createfic', function(req, res, next){
 		}
 	})
 
-	res.render('addpart', {name: "title", user: us});
+	res.redirect('/' + composition._id + '/addpart', {user: us, story: composition});
 });
 
 router.post('/addpart', function(req, res, next){
@@ -118,8 +156,8 @@ function authorStories(id){
 
 
 router.get('/profile/settings', function(req, res, next){
-	if(req.session.user) res.render('settings');
-	else res.render('index');
+	if(req.session.user) res.render('settings', {user: req.session.user});
+	else res.render('index', {user: req.session.user});
 });
 
 router.post('/profile/settings', function(req, res, next){
@@ -148,7 +186,7 @@ router.get('/story/:id', function(req, res, next){
 	Composition.findOne({ _id: id }).populate('author').exec(function (err, story) {
   if (err) return next(err);
   if(story){
-		return res.render('story', {story: story, author: story.author});
+		return res.render('story', {story: story, author: story.author, user: req.session.user});
 	}
 	else{
 		return res.send(404);
@@ -160,13 +198,14 @@ router.get('/story/:id', function(req, res, next){
 router.post('/search', function(req, res, next){
 	var ask = req.body.search;
 	console.log(ask);
-	Composition.find({title: ask}, function(err, stories){
+	var stories = Composition.find({title: ask}, function(err, stories){
 		if(err) return next(err);
-		if(stories){
-			return res.render('main', {stories: stories});
+		if(!stories){
+			return res.send(404);
 		}
-		else return res.send(404);
+		else res.render('search', {stories: stories, user: req.session.user});
 	});
 });
+
 
 module.exports = router;
