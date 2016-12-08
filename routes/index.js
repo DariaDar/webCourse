@@ -97,7 +97,7 @@ router.post('/createfic', function(req, res, next){
 	var user = req.session.user;
 
 	var composition = new Composition({title: title, author: user._id, fandom: fandom, characters: characters, rating: rating, genre: genre, size: size, description: description, authComment: authComment});
-	Composition.save(function(err){
+	composition.save(function(err){
 		if(err) return next(err);
 	});
 
@@ -114,7 +114,8 @@ router.post('/createfic', function(req, res, next){
 		}
 	})
 
-	res.redirect('/' + composition._id + '/addpart', {user: us, story: composition});
+	// res.redirect('/' + composition._id + '/addpart', {user: us, story: composition});
+	 res.redirect('/' + composition._id + '/addpart');
 });
 
 router.post('/addpart', function(req, res, next){
@@ -197,14 +198,32 @@ router.get('/story/:id', function(req, res, next){
 
 router.post('/search', function(req, res, next){
 	var ask = req.body.search;
-	console.log(ask);
-	var stories = Composition.find({title: ask}, function(err, stories){
+	console.log("/"+ask+"/");
+	var stories = Composition.find({title : {'$regex' : '.*' + ask + '.*', '$options': '$i'}}, function(err, stories) {
 		if(err) return next(err);
 		if(!stories){
 			return res.send(404);
 		}
 		else res.render('search', {stories: stories, user: req.session.user});
 	});
+});
+
+router.post('/deletefic/:id', function(req, res, next){
+
+	if(req.session.user || req.session.admin){
+		var id = req.params.id;
+		Composition.findById(id, function(err, story){
+			if(err) return next(err);
+			if(!story) return res.send(404);
+			else{
+				story.remove(function(err){
+	        if(err) return next(err);
+	        else res.redirect('/myfics');
+	      });
+			}
+		});
+	}
+
 });
 
 
