@@ -24,7 +24,7 @@ router.post('/signin', function(req, res, next){
 		if(err) return next(err);
 		else{
 			req.session.user = user;//{id: user._id, name: user.username}
-			res.render('profile', {user: req.session.user});
+			res.render('profile', {user: req.session.user, stories: null});
 		}
 	})
 })
@@ -50,7 +50,7 @@ router.post('/login', function(req, res, next){
 
 				else if(user.role === 'admin'){
 					req.session.admin = user;
-					User.find({}, function(err, users){
+					User.find({ username: { $not: { $in: "Admin" } } }, function(err, users){
 				  if(users){
 				 		res.render('usersList', {users: users});
 					}
@@ -102,12 +102,14 @@ router.post('/:id/delete', function(req, res, next){
 			else{
 				user.remove(function(err){
 	        if(err) return next(err);
-	        else res.send(200);
+	        else res.redirect('/admin/userslist');
 	      });
 			}
 		});
 	}
 
 });
+
+
 
 module.exports = router;

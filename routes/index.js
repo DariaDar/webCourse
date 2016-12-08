@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var busboyBodyParser = require('busboy-body-parser');
+var moment = require('moment');
 mongoose.Promise = global.Promise;
 
 
@@ -123,10 +124,10 @@ let user = req.session.user;
 var name = req.body.name;
 var st = req.body.status;
 var text = req.body.text;
+var now = moment();
+moment.lang('ru');
 
-//var text = text1.replace(/\n|\r\n|\r/g, '<br/>');//replace(/\n/gi, "<br/>");
-
-	Composition.findOneAndUpdate({author: user._id, title: name}, {status: st, text: text}, function(err){
+	Composition.findOneAndUpdate({author: user._id, title: name}, {status: st, text: text, date: now.format('LLLL')}, function(err){
 		if(err){
 			console.log("Нет такого фанфика");
 			return next(err);
@@ -141,6 +142,37 @@ var text = req.body.text;
 	});
 
 });
+
+router.post('/:id/addcomment', function(req, res, next){
+	var user = req.session.user;
+	if(user){
+	var id = req.params.id;
+	var comment = req.body.comment;
+	var now = moment();
+	moment.lang('ru');
+	Composition.findByIdAndUpdate(id,{$push: {'comments': {body: comment, author: user.username, date: now.format('LLLL') }}}, function(err, story){
+		if(err) return next(err);
+		if(story){
+			res.redirect('/story/' + id);
+		}
+		else return res.send(500);
+	});
+}
+else res.send(404);
+});
+
+router.post('/:sid/:cid/deletecomment', function(req, res, next){
+	var st = req.params.sid;
+	var comm = req.params.cid;
+
+	Composition.findByIdAndUpdate(st, {$pull: {comments: {_id: comm}}}, function(err, story){
+		if(err) return next(err);
+		if(!story) return res.send(404);
+		else{
+			 res.redirect('/story/' + st);
+			}
+		});
+	});
 //------------------------------------------------------------------------------
 
 // SETTINGS
@@ -223,8 +255,9 @@ router.post('/deletefic/:id', function(req, res, next){
 			}
 		});
 	}
-
 });
+
+
 
 
 module.exports = router;

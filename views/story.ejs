@@ -59,6 +59,7 @@
           <br/><strong>Статус: </strong><%= story.status %>
           <br /><br /><strong>Описание: </strong><%= story.description %>
            <br/><strong>Комментарий от автора: </strong><%= story.authComment %>
+           <br/><strong>Последнее обновление: </strong><%= story.date %>
         </p>
 
       </div>
@@ -71,6 +72,34 @@
 
      </div>
 
+    </div>
+
+    <div class="comments">
+      <label>Добавить замѣчаніе:</label>
+      <form action="/<%= story._id %>/addcomment" method="post">
+        <textarea class="form-control" cols="4" rows="10"  name="comment" required></textarea>
+
+        <input type='submit' class='btn btn-primary' value="Отправить телеграму" />
+      </form>
+    </div>
+
+    <div class='list'>
+      <label>Всѣ замѣчанія:</label>
+      <ul>
+      <% story.comments.forEach(function(comment) { %>
+          <li><a href="/users/profile/<%= comment.author %>"> <%= comment.author %> </a>
+            <p>
+              <%= comment.body %>
+            </p>
+            <p>
+              <b>Дата получѣнія:</b><%= comment.date %>
+            </p>
+            <form action="/<%= story._id%>/<%= comment._id %>/deletecomment" method="post">
+              <input type='submit' class='btn btn-primary' value="Сжечь сие замѣчаніе" />
+            </form>
+          </li>
+      <% }); %>
+  </ul>
     </div>
 
 </div>

@@ -46,22 +46,24 @@
 
 
     <div class='container'>
-      <h2>ВНИМАНИЕ! На сайте запрещено публиковать чужие работы!</h2>
+      <h2>ВНИМАНЬИЦЕ! На сайте запрещено публиковать чужие работы!</h2>
         <div class='row'>
             <div class='col-md-8'>
                 <form  id="form-create" action="/createfic" method="post">
                     <!-- <form id="form-create"> -->
-                        <label>Название:</label>
-                        <input type='text' name='title' class='form-control' maxlength="200" />
+                      <label>Название:</label>
+                      <input type='text' name='title' class='form-control' maxlength="200" required="required" />
+
+
                         <label>Фэндом:</label>
-                        <input type='text' name='fandom' class='form-control' maxlength="100" />
+                        <input type='text' name='fandom' class='form-control' maxlength="100" required="required"/>
                         <label>Основные персонажи (пэйринг):</label>
-                        <input type='text' name='characters' class='form-control' maxlength="400" />
+                        <input type='text' name='characters' class='form-control' maxlength="400" required="required"/>
                     <!-- </form>
                     <form id="form-create"> -->
                         <label>Размер:</label>
                         <div class="radio">
-                            <label><input type="radio" name="size" value="Мини">Мини</label>
+                            <label><input type="radio" name="size" value="Мини" checked>Мини</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" name="size" value="Миди">Миди</label>
@@ -73,7 +75,7 @@
                     <form id="form-create"> -->
                         <label>Рейтинг:</label>
                         <div class="radio">
-                            <label><input type="radio" name="rating" value="G">G</label>
+                            <label><input type="radio" name="rating" value="G" checked>G</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" name="rating" value="PG-13">PG-13</label>
@@ -180,10 +182,10 @@
                     <!-- </form>
                     <form id="form-create"> -->
                         <label>Описание:</label>
-                        <textarea class="form-control" rows="5" name="description" maxlength="1000"></textarea>
+                        <textarea class="form-control" rows="5" name="description" maxlength="1000" required="required"></textarea>
 
                         <label>Комментарий от автора:</label>
-                        <textarea class="form-control" rows="5" name="authComment" maxlength="2000"></textarea>
+                        <textarea class="form-control" rows="5" name="authComment" maxlength="2000" required="required"></textarea>
 
                     <!-- </form> -->
                       <button type='submit' class='btn btn-primary'>Сохранить и перейти к публикации</button>
