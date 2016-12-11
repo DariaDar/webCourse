@@ -11,36 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/homepage">Inspire-Write-Publish</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= story.author.username %><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/users/profile/<%= story.author.username %>">Мой профиль</a></li>
-                      <li><a href="/createfic">Добавить фанфик</a></li>
-                      <li><a href="/myfics">Мой архивъ</a></li>
-                      <li><a href="/profile/settings">Настройки профиля</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="#">Правила</a></li>
-                <li><a href="#">О нас</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form action="/search" method="post" class="navbar-search pull-left">
-                  <input type="text" name="search" class="form-control" placeholder="Найти...">
-                </form>
-              </li>
-                <li>
-                    <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <% layout('layout') -%>
 <div class="container">
 
     <h1><%= story.title %></h1>
@@ -50,7 +21,7 @@
       </div>
       <div class='text'>
         <p>
-          <b>Автор: </b><a href="/users/profile/<%= story.author.username %> "><%= story.author.username %></a>
+          <b>Автор: </b><a href="/users/profile/<%= story.author._id %> "><%= story.author.username %></a>
           <br/><strong>Фендом: </strong><%= story.fandom %>
           <br/><strong>Персонажи: </strong><%= story.characters %>
           <br/><strong>Рейтинг: </strong><%= story.rating %>
@@ -74,17 +45,21 @@
 
     </div>
 
+    <%  if(user) { %>
     <div class="comments">
       <label>Добавить замѣчаніе:</label>
       <form action="/<%= story._id %>/addcomment" method="post">
         <textarea class="form-control" cols="4" rows="10"  name="comment" required></textarea>
 
-        <input type='submit' class='btn btn-primary' value="Отправить телеграму" />
+        <input type='submit' class='btn btn-primary' value="Отправить голубя" />
       </form>
     </div>
-
+    <% } %>
     <div class='list'>
       <label>Всѣ замѣчанія:</label>
+      <%  if(story.comments.length == 0){ %>
+        <h4>Какая досада. Ни одного голубя с посланіѣм не было доставлено.</h4>
+        <% } else { %>
       <ul>
       <% story.comments.forEach(function(comment) { %>
           <li><a href="/users/profile/<%= comment.author %>"> <%= comment.author %> </a>
@@ -94,12 +69,16 @@
             <p>
               <b>Дата получѣнія:</b><%= comment.date %>
             </p>
+            <% if(user) { %>
+              <%  if(user._id == story.author._id || user.role == 'admin') { %>
             <form action="/<%= story._id%>/<%= comment._id %>/deletecomment" method="post">
               <input type='submit' class='btn btn-primary' value="Сжечь сие замѣчаніе" />
             </form>
+              <% } }%>
           </li>
       <% }); %>
   </ul>
+  <% } %>
     </div>
 
 </div>

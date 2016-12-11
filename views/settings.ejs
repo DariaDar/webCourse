@@ -10,44 +10,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/homepage">Inspire-Write-Publish</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
-                      <li><a href="/createfic">Добавить фанфик</a></li>
-                      <li><a href="/myfics">Мой архивъ</a></li>
-                      <li><a href="/profile/settings">Настройки профиля</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="#">Правила</a></li>
-                <li><a href="#">О нас</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form action="/search" method="post" class="navbar-search pull-left">
-                  <input type="text" name="search" class="form-control" placeholder="Найти...">
-                </form>
-              </li>
-                <li>
-                    <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <% layout('layout') -%>
     <div class="container">
 <!-- enctype="multipart/form-data" -->
     <form action='/profile/settings' enctype="multipart/form-data" method='POST' >
 					<label>Загрузить аватар:</label>
-					<input type='file' accept="image/*" name='image' />
+					<input type='file' accept="image/*" name='image'/>
 					<br />
            <label>О себѣ:</label>
-          <textarea class="form-control" rows="5" name="about"></textarea>
+
+     <div class="control-group error">
+          <textarea class="form-control" cols="1" rows="10"  name="about" required></textarea>
+
+          <p class="help-block form-error">
+                               Это поле обязательно для заполнения
+         </p>
+    </div>
 					<input type='submit' class='btn btn-primary' value="Сохранить и вернуться на страницу профиля" />
 				</form>
     </div>

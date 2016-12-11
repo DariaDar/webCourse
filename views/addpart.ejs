@@ -10,37 +10,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/homepage">Inspire-Write-Publish</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/users/profile/<%= user.username %>">Мой профиль</a></li>
-                      <li><a href="/createfic">Добавить фанфик</a></li>
-                      <li><a href="/myfics">Мой архивъ</a></li>
-                      <li><a href="/profile/settings">Настройки профиля</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="#">Правила</a></li>
-                <li><a href="#">О нас</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form action="/search" method="post" class="navbar-search pull-left">
-                  <input type="text" name="search" class="form-control" placeholder="Найти...">
-                </form>
-              </li>
-                <li>
-                    <a href="/users/logout"><span class="glyphicon glyphicon-log-out"></span>Выйти</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
+    <% layout('layout') -%>
+    
 <div class="container">
   <form action='/addpart' method="post">
     <div class="form-group">
@@ -48,7 +19,10 @@
         <input type="hidden" name="name" value="<%= story.title %>">
        <br/>
       <label for="comment">Что Вашей душеньке угодно сочинить:</label>
-      <textarea class="form-control" rows="6" lines="12" name="text" wrap='hard' cols="10"></textarea>
+      <p>
+        <textarea class="form-control" rows="20" lines="12" name="text" wrap='hard' value="<%=story.text %>" cols="10"><%=story.text %></textarea>
+      </p>
+
     </div>
 
 

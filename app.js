@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 var busboyBodyParser = require('busboy-body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
+var engine = require('ejs-locals');
+
+//var expressLayouts = require('express-ejs-layouts');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -27,6 +31,8 @@ app.use(session({
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+//app.use(expressLayouts);
+app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
