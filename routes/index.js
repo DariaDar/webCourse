@@ -327,7 +327,63 @@ router.post('/deletefic/:id', function(req, res, next) {
     }
 });
 
+router.get('/fullsearch', function(req, res, next){
+	if(req.session.user){
+		res.render('fullsearch', {user: req.session.user});
+	}
 
+});
+router.get('/fullsearchres', function(req, res, next){
+	if(req.session.user){
+		var size = req.query.size;
+		var rating = req.query.rating;
+		var genres = req.query.genre;
+		console.log( genres);
+
+		Composition.find({size: size, rating: rating, genre: {$all: genres}}, function(err, stories){
+			if(err) return next(err);
+			if(!stories) res.send(404);
+			else{
+				res.render('search', {stories: stories, user: req.session.user});
+			}
+		});
+	}
+	else res.send(404);
+});
+
+router.get('/:id/changefic', function(req, res, next){
+	if(req.session.user){
+		var id = req.params.id;
+		Composition.findById(id, function(err, story){
+			if(err) return next(err);
+			if(story)
+				res.render('changefic', {user: req.session.user, story: story});
+			else res.send(404);
+		});
+	}else{
+		res.send(404);
+	}
+});
+
+router.post('/changefic', function(req, res, next){
+	var name = req.body.name;
+	var title = req.body.title;
+	var fandom = req.body.fandom;
+	var characters = req.body.characters;
+	var size = req.body.size;
+	var rating = req.body.rating;
+	var genre = req.body.genre;
+	var description = req.body.description;
+	var authComment = req.body.authComment;
+
+	Composition.findOneAndUpdate({title: name}, {title: title, fandom: fandom, characters:characters, size: size, rating: rating, genre: genre, description: description, authComment: authComment}, function(err, fic){
+		if(err) return next(err);
+		if(fic){
+			res.redirect('/story/' + fic._id);
+		}
+		else res.send(500);
+	});
+})
 
 
 module.exports = router;
