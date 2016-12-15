@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel='stylesheet' href='/stylesheets/style.css' />
+      <link href="https://fonts.googleapis.com/css?family=Cormorant+Infant|Oranienbaum|Tinos" rel="stylesheet">
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
@@ -15,25 +16,33 @@
       <% layout('layout') -%>
   <div class="container">
 
-
+<h1>Салонъ нѣзависимыхъ творцовъ</h1>
+<p class="intro">
+   Надѣвайте лучшіе наряды, напомаживайте личико, берите перо и чѣрнильницу и всенепремѣнно явитесь предаваться разудалому творѣнию литѣратурныхъ шедевровъ въ свѣтскій Салонъ Незавиcимыхъ Творцовъ!
+   <br />Оное общество синепрѣменно наполнитъ полупустые бокалы страждущихъ душъ декадентовъ цѣлебнымъ нектаромъ вдохновенія и вызоветъ множество овацій.
+</p>
+<br />
+<h2>Послѣдніе сочиненія:</h2>
   <ul>
-  <div>
+  <div class="story">
   	<% stories.forEach(function(story) { %>
   			<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
   				<p>
-            <b>Автор: </b><a href="/users/profile/<%= story.author._id %>"><%= story.author.username %></a>
-            <br/><b>Фендом: </b><%= story.fandom %>
-  					<br/><b>Персонажи: </b><%= story.characters %>
-  					<br/><b>Рейтинг: </b><%= story.rating %>
-  					<br /><b>Жанр: </b><%= story.genre %>
-  					<br/><b>Размер: </b><%= story.size %>
-  					<br/><b>Статус: </b><%= story.status %>
-  					<br /><br /><b>Описание: </b><%= story.description %>
+            <b>Создатѣль: </b><a href="/users/profile/<%= story.author._id %>"><%= story.author.username %></a>
+            <br/><b>Происходжѣніе: </b><%= story.fandom %>
+  					<br/><b>Герои: </b><%= story.characters %>
+  					<br/><b>Рейтингъ: </b><%= story.rating %>
+  					<br /><b>Жанръ: </b><%= story.genre %>
+  					<br/><b>Размеръ: </b><%= story.size %>
+  					<br/><b>Статусъ: </b><%= story.status %>
+  					<br /><br /><b>Описаниѣ: </b><%= story.description %>
   				</p>
   			</li>
   	<% }); %>
   	</div>
   </ul>
+
+<a class="btn" href="/all">Созѣрцать все сочиненія</a>
 </div>
 
 

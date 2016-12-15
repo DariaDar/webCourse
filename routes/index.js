@@ -4,52 +4,66 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var busboyBodyParser = require('busboy-body-parser');
 var moment = require('moment');
+var mongoosePaginate = require('mongoose-paginate');
+var paginate = require('express-paginate');
 mongoose.Promise = global.Promise;
 
 
 var User = require('../models/model');
 var Composition = require('../models/composition');
 
-router.get('/homepage', function(req, res, next) {
-    Composition.find({}).populate('author').sort({
-        date: -1
-    }).exec(function(err, stories) {
-        if (err) {
-            return next(err);
-        }
-        if (stories) {
-            res.render('homePage', {
-                stories: stories,
-								user: req.session.user
-            });
-        } else {
-            res.send("There is no story on the site");
-        }
+router.get('/', function(req, res, next) {
+    Composition.find({}).skip(0).limit(5).populate('author').exec(function(err, stories){
+      if(err) return next(err);
+      if(stories){
+        res.render('homePage', {
+          stories: stories,
+          user: req.session.user,
     });
+  }
+});
 });
 
-router.get('/', function(req, res, next) {
-    if (req.session.user) {
-        Composition.find({}).populate('author').exec(function(err, stories) {
-            if (err) return next(err);
-            if (stories) {
-                res.render('homePage', {
-                    stories: stories,
-                    user: req.session.user,
-                });
-            } else {
-                res.send("There is no story on the site");
-            }
-        });
-    } else {
-        var data = {
-            title: 'Пиши-Вдохновляйся-Твори',
-						user: req.session.user,
-        }
-        console.log("Hello");
-        res.render('index', data);
+router.get('/all', function(req, res, next){
+  var page = req.query.page;
+  console.log(page);
+  var lim = 10;
+
+      Composition.find({}).skip(0 + (page-1) * lim).limit(lim).populate('author').exec(function(err, stories){
+        if(err) return next(err);
+        if(stories){
+          Composition.find().count(function(err, countSt)  {
+            var count = Math.round(countSt/lim);
+            console.log(countSt);
+          res.render('all', {
+            pageCount: count,
+            stories: stories,
+            user: req.session.user,
+      });
+    });
     }
+})
 });
+
+// Composition.count()
+// .then(count => {
+//     Composition.find().skip(0 + i * 9).limit(9 + i * 9)
+//         .then(stories => {
+//             res.render('homePage', {
+//                 count: count,
+//                 prods: prods,
+//                 href_add: 'addprod',
+//                 user: req.user
+//                     // user : req.user
+//             });
+//         })
+// .catch(err => res.status(500).end(err));
+// });
+//
+//
+//
+// });
+
 
 //--------------------Создать фф------------------------------
 router.get('/createfic', function(req, res, next) {
@@ -280,7 +294,6 @@ router.get('/story/:id', function(req, res, next) {
         if (story) {
             return res.render('story', {
                 story: story,
-                author: story.author,
                 user: req.session.user
             });
         } else {
@@ -302,7 +315,7 @@ router.get('/search', function(req, res, next) {
             return res.send(404);
         } else res.render('search', {
             stories: stories,
-						user: req.session.user
+            user: req.session.user
         });
     });
 });
@@ -311,8 +324,8 @@ router.post('/deletefic/:id', function(req, res, next) {
 
     if (req.session.user) {
         var id = req.params.id;
-				var authID = req.params.author;
-				//User.findByIdAndUpdate(authID, { $pull: {stories:{_id: id}}});
+        var authID = req.params.author;
+        //User.findByIdAndUpdate(authID, { $pull: {stories:{_id: id}}});
 
         Composition.findById(id, function(err, story) {
             if (err) return next(err);
@@ -327,63 +340,108 @@ router.post('/deletefic/:id', function(req, res, next) {
     }
 });
 
-router.get('/fullsearch', function(req, res, next){
-	if(req.session.user){
-		res.render('fullsearch', {user: req.session.user});
-	}
+router.get('/fullsearch', function(req, res, next) {
+    if (req.session.user) {
+        res.render('fullsearch', {
+            user: req.session.user
+        });
+    }
 
 });
-router.get('/fullsearchres', function(req, res, next){
-	if(req.session.user){
-		var size = req.query.size;
-		var rating = req.query.rating;
-		var genres = req.query.genre;
-		console.log( genres);
+router.get('/fullsearchres', function(req, res, next) {
+    if (req.session.user) {
+        var size = req.query.size;
+        var rating = req.query.rating;
+        var genres = req.query.genre;
+        console.log(genres);
 
-		Composition.find({size: size, rating: rating, genre: {$all: genres}}, function(err, stories){
-			if(err) return next(err);
-			if(!stories) res.send(404);
-			else{
-				res.render('search', {stories: stories, user: req.session.user});
-			}
-		});
-	}
-	else res.send(404);
+        Composition.find({
+            size: size,
+            rating: rating,
+            genre: {
+                $all: genres
+            }
+        }).populate('author').exec(function(err, stories) {
+            if (err) return next(err);
+            if (!stories) res.send(404);
+            else {
+                res.render('search', {
+                    stories: stories,
+                    user: req.session.user
+                });
+            }
+        });
+    } else res.send(404);
 });
 
-router.get('/:id/changefic', function(req, res, next){
-	if(req.session.user){
-		var id = req.params.id;
-		Composition.findById(id, function(err, story){
-			if(err) return next(err);
-			if(story)
-				res.render('changefic', {user: req.session.user, story: story});
-			else res.send(404);
-		});
-	}else{
-		res.send(404);
-	}
+router.get('/:id/changefic', function(req, res, next) {
+    if (req.session.user) {
+        var id = req.params.id;
+        Composition.findById(id, function(err, story) {
+            if (err) return next(err);
+            if (story)
+                res.render('changefic', {
+                    user: req.session.user,
+                    story: story
+                });
+            else res.send(404);
+        });
+    } else {
+        res.send(404);
+    }
 });
 
-router.post('/changefic', function(req, res, next){
-	var name = req.body.name;
-	var title = req.body.title;
-	var fandom = req.body.fandom;
-	var characters = req.body.characters;
-	var size = req.body.size;
-	var rating = req.body.rating;
-	var genre = req.body.genre;
-	var description = req.body.description;
-	var authComment = req.body.authComment;
+router.post('/changefic', function(req, res, next) {
+    var name = req.body.name;
+    var title = req.body.title;
+    var fandom = req.body.fandom;
+    var characters = req.body.characters;
+    var size = req.body.size;
+    var rating = req.body.rating;
+    var genre = req.body.genre;
+    var description = req.body.description;
+    var authComment = req.body.authComment;
 
-	Composition.findOneAndUpdate({title: name}, {title: title, fandom: fandom, characters:characters, size: size, rating: rating, genre: genre, description: description, authComment: authComment}, function(err, fic){
-		if(err) return next(err);
-		if(fic){
-			res.redirect('/story/' + fic._id);
-		}
-		else res.send(500);
-	});
-})
+    Composition.findOneAndUpdate({
+        title: name
+    }, {
+        title: title,
+        fandom: fandom,
+        characters: characters,
+        size: size,
+        rating: rating,
+        genre: genre,
+        description: description,
+        authComment: authComment
+    }, function(err, fic) {
+        if (err) return next(err);
+        if (fic) {
+            res.redirect('/story/' + fic._id);
+        } else res.send(500);
+    });
+});
+
+
+/*router.get('/:p', function(req, res, next){
+  var query = {};
+  //console.log(req.query);
+  var options = {
+    populate: "author",
+    page: req.params.p,
+    limit:3
+  };
+Composition.paginate(query, options).then(function(err, stories){
+  if (err) return next(err);
+  if (stories) {
+      res.render('homePage', {
+          stories: stories,
+          user: req.session.user,
+      });
+  } else {
+      res.send("There is no story on the site");
+  }
+  })
+})*/
 
 
 module.exports = router;

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Все сочиненія</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Infant|Oranienbaum|Tinos" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+<% layout('layout') -%>
+
+<div class="container">
+<h2>Все сочиненія:</h2>
+    <ul>
+    <div class="story">
+      <% stories.forEach(function(story) { %>
+          <li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
+            <p>
+              <b>Создатѣль: </b><a href="/users/profile/<%= story.author._id %>"><%= story.author.username %></a>
+              <br/><b>Происходжѣніе: </b><%= story.fandom %>
+              <br/><b>Герои: </b><%= story.characters %>
+              <br/><b>Рейтингъ: </b><%= story.rating %>
+              <br /><b>Жанръ: </b><%= story.genre %>
+              <br/><b>Размеръ: </b><%= story.size %>
+              <br/><b>Статусъ: </b><%= story.status %>
+              <br /><br /><b>Описаниѣ: </b><%= story.description %>
+            </p>
+          </li>
+      <% }); %>
+      </div>
+    </ul>
+    <ul class="pagination">
+    <% for(var i = 0; i < pageCount; i++) { %>
+      <li><a href="/all?page=<%= i + 1 %>"><%= i+1%></a></li>
+      <% } %>
+</ul>
+</div>
+  </body>
+</html>
