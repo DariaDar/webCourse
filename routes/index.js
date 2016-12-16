@@ -13,7 +13,7 @@ var User = require('../models/model');
 var Composition = require('../models/composition');
 
 router.get('/', function(req, res, next) {
-    Composition.find({}).skip(0).limit(5).populate('author').exec(function(err, stories){
+    Composition.find({}).skip(0).limit(5).populate('author').sort( {"date" : -1} ).exec(function(err, stories){
       if(err) return next(err);
       if(stories){
         res.render('homePage', {
@@ -27,15 +27,16 @@ router.get('/', function(req, res, next) {
 router.get('/all', function(req, res, next){
   var page = req.query.page;
   console.log(page);
-  var lim = 10;
+  var lim = 2;
 
-      Composition.find({}).skip(0 + (page-1) * lim).limit(lim).populate('author').exec(function(err, stories){
+      Composition.find({}).skip(0 + (page-1) * lim).limit(lim).populate('author').sort( {"date" : -1} ).exec(function(err, stories){
         if(err) return next(err);
         if(stories){
           Composition.find().count(function(err, countSt)  {
             var count = Math.round(countSt/lim);
             console.log(countSt);
           res.render('all', {
+            curr:page,
             pageCount: count,
             stories: stories,
             user: req.session.user,
@@ -44,25 +45,6 @@ router.get('/all', function(req, res, next){
     }
 })
 });
-
-// Composition.count()
-// .then(count => {
-//     Composition.find().skip(0 + i * 9).limit(9 + i * 9)
-//         .then(stories => {
-//             res.render('homePage', {
-//                 count: count,
-//                 prods: prods,
-//                 href_add: 'addprod',
-//                 user: req.user
-//                     // user : req.user
-//             });
-//         })
-// .catch(err => res.status(500).end(err));
-// });
-//
-//
-//
-// });
 
 
 //--------------------Создать фф------------------------------
@@ -174,7 +156,7 @@ router.post('/addpart', function(req, res, next) {
     }, {
         status: st,
         text: text,
-        date: now.format('LLLL')
+        date: Date.now()
     }, function(err) {
         if (err) {
             console.log("Нет такого фанфика");
@@ -234,29 +216,39 @@ router.post('/:sid/:cid/deletecomment', function(req, res, next) {
         }
     });
 });
+
+
 //------------------------------------------------------------------------------
 
 // SETTINGS
 
-function authorStories(id) {
-    var stories = Composition.find({
-        author: id
-    }, function(err, stories) {
-        if (err) return next(err);
-        if (stories) {
-            return stories;
-        } else return res.send(500);
-    });
-}
+// function authorStories(id) {
+//     var stories = Composition.find({
+//         author: id
+//     }, function(err, stories) {
+//         if (err) return next(err);
+//         if (stories) {
+//             return stories;
+//         } else return res.send(500);
+//     });
+// }
 
 
 router.get('/profile/settings', function(req, res, next) {
-    if (req.session.user) res.render('settings', {
+  var user = req.session.user;
+    if (user){
+      User.findOne({_id: user._id}, function(err, user){
+        if(err) return next(err);
+        if(user){
+         res.render('settings', {person: user, user: user});
+        }
+      })
+    }
+    else{
+      res.render('index', {
         user: req.session.user
     });
-    else res.render('index', {
-        user: req.session.user
-    });
+  }
 });
 
 router.post('/profile/settings', function(req, res, next) {
@@ -292,7 +284,10 @@ router.get('/story/:id', function(req, res, next) {
     }).populate('author').exec(function(err, story) {
         if (err) return next(err);
         if (story) {
+          var date = story.date;
+          var d = date.toDateString();
             return res.render('story', {
+                date: d,
                 story: story,
                 user: req.session.user
             });
@@ -346,6 +341,11 @@ router.get('/fullsearch', function(req, res, next) {
             user: req.session.user
         });
     }
+    else {
+    res.render('index', {
+        user: req.session.user
+    });
+  }
 
 });
 router.get('/fullsearchres', function(req, res, next) {
@@ -353,25 +353,32 @@ router.get('/fullsearchres', function(req, res, next) {
         var size = req.query.size;
         var rating = req.query.rating;
         var genres = req.query.genre;
-        console.log(genres);
+        var allGenres = [];
+        allGenres = genres.split(';');
+
+        console.log(allGenres[0], allGenres[1]);
+        console.log(size, rating);
+        console.log(allGenres);
 
         Composition.find({
-            size: size,
+            size:  size,
             rating: rating,
             genre: {
-                $all: genres
+                $all: allGenres
             }
         }).populate('author').exec(function(err, stories) {
             if (err) return next(err);
             if (!stories) res.send(404);
             else {
-                res.render('search', {
-                    stories: stories,
-                    user: req.session.user
-                });
+                // res.render('search', {
+                //     stories: stories,
+                //     user: req.session.user
+                // });
+                res.send(stories);
             }
         });
-    } else res.send(404);
+    }
+
 });
 
 router.get('/:id/changefic', function(req, res, next) {
