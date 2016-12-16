@@ -28,7 +28,8 @@
                   <button type="submit" class="btn">Измѣнить шапку</button>
                 </form>
                 <form action="/deletefic/<%= story._id %>" method="post">
-                  <button type="submit" class="btn btn-danger">Сжечь сіе творѣние</button>
+                  <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                  <button type="submit" class="btn">Сжечь сіе творѣние</button>
                 </form>
       				</span>
       			</li>

@@ -132,6 +132,10 @@ p{
 ul{
   list-style: none;
 }
+label{
+  font-family:'Cormorant Infant';
+  font-size: 17px;
+}
 .intro{
   font-family:'Oranienbaum';
   font-size: 20px;
@@ -243,7 +247,7 @@ a:hover{
 }
 #warn{
   color:black;
-  text-shadow: 2px 2px rgb(77, 77, 77);
+  text-shadow: 2px 2px rgb(157, 157, 157);*/
 }
 
 .pagination{

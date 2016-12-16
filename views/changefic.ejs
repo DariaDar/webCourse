@@ -17,6 +17,7 @@
         <div class='row'>
             <div class='col-md-8'>
                 <form  name="form_create" action="/changefic" method="post" onsubmit="return create()">
+                  <input type="hidden" name="_csrf" value="<%=csrfToken %>">
                     <!-- <form id="form-create"> -->
                     <input type="hidden" name="name" value="<%= story.title %>">
                       <label>Название:</label>

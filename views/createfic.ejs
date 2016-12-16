@@ -20,6 +20,7 @@
         <div class='row'>
             <div class='col-md-8'>
                 <form name="form_create" class="form_create" action="/createfic" method="post" onsubmit="return create()">
+                  <input type="hidden" name="_csrf" value="<%=csrfToken %>">
                     <!-- <form id="form-create"> -->
                       <label>Названіе:</label>
                       <input type='text' name='title' class='form-control' maxlength="200"  />

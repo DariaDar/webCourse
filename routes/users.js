@@ -1,14 +1,20 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var csrf = require('csurf');
+var bodyParser = require('body-parser');
 var router = express.Router();
 mongoose.Promise = global.Promise;
 var db = mongoose.connect('mongodb://localhost/mydb');
+
+var csrfProtection = csrf({ cookie: true });
+var parseForm = bodyParser.urlencoded({ extended: false });
 
 var User = require('../models/model');
 var Composition = require('../models/composition');
 
 //>>>>>>> АВТОРИЗАЦИЯ<<<<<<<<<<<<<
-router.post('/signin', function(req, res, next){
+router.post('/signin',csrfProtection, function(req, res, next){
 	let username = req.body.username;
 	var password = req.body.password;
 	var role = 'user';
@@ -27,10 +33,10 @@ router.post('/signin', function(req, res, next){
 			req.session.user = user;//{id: user._id, name: user.username}
 			return res.redirect('/users/profile/' + user._id);//res.render('profile', {user: req.session.user, stories: null});
 		}
-	})
-})
+	});
+});
 
-router.post('/login', function(req, res, next){
+router.post('/login', csrfProtection,function(req, res, next){
 	var username =  req.body.username;
 	var password = req.body.password;
 	console.log(username, password);
@@ -46,7 +52,7 @@ router.post('/login', function(req, res, next){
 
 				else if(user.role === 'admin'){
 					//req.session.admin = user;
-					res.redirect('/admin/userslist');
+				//	res.redirect('/admin/userslist');
 				}
 			}
 			else if(err){
@@ -58,7 +64,7 @@ router.post('/login', function(req, res, next){
 	})
 })
 
-router.get('/logout', function(req, res, next) {
+router.get('/logout',csrfProtection, function(req, res, next) {
 	if (req.session.user) {
 		delete req.session.user;
 		res.redirect('/');
@@ -66,7 +72,7 @@ router.get('/logout', function(req, res, next) {
 });
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-router.get('/profile/:id', function(req, res, next){
+router.get('/profile/:id',csrfProtection, function(req, res, next){
 			var id = req.params.id;
 			var page = req.query.page;
 								console.log(page);
@@ -78,7 +84,7 @@ router.get('/profile/:id', function(req, res, next){
 					if(err) return next(err);
 					if(!stories) return res.send(404);
 					else{
-						res.render('profile', {user: req.session.user, author: user, stories: stories});
+						res.render('profile', {csrfToken: req.csrfToken(), user: req.session.user, author: user, stories: stories});
 					}
 				});
 		    }
@@ -87,7 +93,7 @@ router.get('/profile/:id', function(req, res, next){
 			});
 
 //Удаление пользователя
-router.post('/:id/delete', function(req, res, next){
+router.post('/:id/delete',csrfProtection, function(req, res, next){
 	if(req.session.user){
 		var id = req.params.id;
 		console.log(id);

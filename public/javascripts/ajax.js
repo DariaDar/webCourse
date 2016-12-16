@@ -1,17 +1,4 @@
-function search_func(value)
-{
-            $.ajax({
-               type: "GET",
-               url: "/search",
-               data: {'size' : value,
-                      'rating': rating,
-                      },
-               dataType: "json",
-               success: function(stories){
-                           //Receiving the result of search here
-               }
-            });
-}
+
 
 function f()
 {
@@ -60,6 +47,7 @@ $(document).ready(function() {
           }
           else{
             $('#results').html("<p></p>");
+            $("#story").addClass("story");
             stories.forEach(function(story){
               $('#results').append("<a href=\'/story/" + story._id + "'> <h3>"+ story.title + " </h3>");
               /*$('#results').append("<b>Создатѣль: </b><a href=\"/users/profile/" + story.author._id + ">" + story.author.username + "</a>");*/

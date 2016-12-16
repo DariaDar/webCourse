@@ -20,12 +20,11 @@ var admin = require('./routes/admin');
 var api = require('./routes/api');
 
 
-var csrfProtection = csrf({ cookie: true });
-var parseForm = bodyParser.urlencoded({ extended: false });
+// var csrfProtection = csrf({ cookie: true });
+// var parseForm = bodyParser.urlencoded({ extended: false });
 
 var app = express();
 
-app.use(cookieParser());
 
 app.use(session({
     secret: 'Nothing Lasts Forever',

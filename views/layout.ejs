@@ -60,6 +60,7 @@
                   			</label>
                   			<div id="login-content">
                   				<form action="/users/login" name="form" onsubmit="return validate_form();" method="post">
+                             <input type="hidden" name="_csrf" value="<%=csrfToken %>">
                   					<fieldset id="inputs">
                   						<input id="username"  name="username" placeholder="Имя персоны">
                               <span style='color:white; background-color:rgb(224, 162, 162)' id='namef'></span> <br />
@@ -82,9 +83,9 @@
                   			<div id="signin-content">
                   				<form action="/users/signin"name="form2" onsubmit="return validate_form2();" method="post">
                   					<fieldset id="inputs">
-                  						<input id="username"  name="username" placeholder="Имя персоны">
+                  						<input id="usernameS"  name="username" placeholder="Имя персоны">
                               <span style='color:white; background-color:rgb(224, 162, 162)' id='namefal'></span> <br />
-                  						<input id="password" type="password" name="password" placeholder="Шифръ" >
+                  						<input id="passwordS" type="password" name="password" placeholder="Шифръ" >
                               <span style='color:white; background-color:rgb(224, 162, 162)' id="passwordFal"></span><br />
                   					</fieldset>
                   					<fieldset id="actions">

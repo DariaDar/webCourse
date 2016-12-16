@@ -22,6 +22,7 @@
     <% users.forEach(function(person) { %>
         <li><a href="/users/profile/<%= person._id %>"> <%= person.username %> </a>
           <form action="/users/<%= person._id %>/delete" method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken %>">
               <button type='submit' class='btn btn-primary'>Удалить пользователя <%= person.username %></button>
           </form>
         </li>

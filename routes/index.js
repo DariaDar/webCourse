@@ -1,22 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var csrf = require('csurf');
 var bodyParser = require('body-parser');
 var busboyBodyParser = require('busboy-body-parser');
 var moment = require('moment');
 var mongoosePaginate = require('mongoose-paginate');
-var paginate = require('express-paginate');
+
+var csrfProtection = csrf({ cookie: true });
+var parseForm = bodyParser.urlencoded({ extended: false });
+
 mongoose.Promise = global.Promise;
 
 
 var User = require('../models/model');
 var Composition = require('../models/composition');
 
-router.get('/', function(req, res, next) {
+router.get('/', csrfProtection, function(req, res, next) {
     Composition.find({}).skip(0).limit(5).populate('author').sort( {"date" : -1} ).exec(function(err, stories){
       if(err) return next(err);
       if(stories){
         res.render('homePage', {
+          csrfToken: req.csrfToken(),
           stories: stories,
           user: req.session.user,
     });
@@ -24,7 +30,7 @@ router.get('/', function(req, res, next) {
 });
 });
 
-router.get('/all', function(req, res, next){
+router.get('/all',csrfProtection, function(req, res, next){
   var page = req.query.page;
   console.log(page);
   var lim = 2;
@@ -36,6 +42,7 @@ router.get('/all', function(req, res, next){
             var count = Math.round(countSt/lim);
             console.log(countSt);
           res.render('all', {
+            csrfToken: req.csrfToken(),
             curr:page,
             pageCount: count,
             stories: stories,
@@ -48,18 +55,20 @@ router.get('/all', function(req, res, next){
 
 
 //--------------------Создать фф------------------------------
-router.get('/createfic', function(req, res, next) {
+router.get('/createfic', csrfProtection, function(req, res, next) {
     if (req.session.user) {
         res.render('createfic', {
+          csrfToken: req.csrfToken(),
             user: req.session.user
         });
     } else res.render('index', {
+      csrfToken: req.csrfToken(),
         user: req.session.user
     });
 
 })
 
-router.get('/:id/addpart', function(req, res, next) {
+router.get('/:id/addpart', csrfProtection, function(req, res, next) {
     if (req.session.user) {
         Composition.findOne({
             _id: req.params.id
@@ -67,6 +76,7 @@ router.get('/:id/addpart', function(req, res, next) {
             if (err) return next(err);
             if (story) {
                 return res.render('addpart', {
+                    csrfToken: req.csrfToken(),
                     user: req.session.user,
                     story: story
                 });
@@ -75,11 +85,12 @@ router.get('/:id/addpart', function(req, res, next) {
             }
         });
     } else res.render('index', {
+      csrfToken: req.csrfToken(),
         user: req.session.user
     });
 })
 
-router.get('/myfics', function(req, res, next) {
+router.get('/myfics',csrfProtection,  function(req, res, next) {
     var user = req.session.user;
     if (user) {
         Composition.find({
@@ -88,17 +99,19 @@ router.get('/myfics', function(req, res, next) {
             if (err) return next(err);
             if (stories) {
                 return res.render('myfics', {
+                  csrfToken: req.csrfToken(),
                     user: user,
                     stories: stories
                 });
             }
-        })
+        });
     } else res.render('index', {
+      csrfToken: req.csrfToken(),
         user: req.session.user
     });
-})
+});
 
-router.post('/createfic', function(req, res, next) {
+router.post('/createfic', csrfProtection,function(req, res, next) {
     var title = req.body.title;
     var fandom = req.body.fandom;
     var characters = req.body.characters;
@@ -142,7 +155,7 @@ router.post('/createfic', function(req, res, next) {
     res.redirect('/' + composition._id + '/addpart');
 });
 
-router.post('/addpart', function(req, res, next) {
+router.post('/addpart',csrfProtection, function(req, res, next) {
     let user = req.session.user;
     var name = req.body.name;
     var st = req.body.status;
@@ -174,7 +187,7 @@ router.post('/addpart', function(req, res, next) {
 
 });
 
-router.post('/:id/addcomment', function(req, res, next) {
+router.post('/:id/addcomment', csrfProtection,function(req, res, next) {
     var user = req.session.user;
     if (user) {
         var id = req.params.id;
@@ -198,7 +211,7 @@ router.post('/:id/addcomment', function(req, res, next) {
     } else res.send(404);
 });
 
-router.post('/:sid/:cid/deletecomment', function(req, res, next) {
+router.post('/:sid/:cid/deletecomment', csrfProtection,function(req, res, next) {
     var st = req.params.sid;
     var comm = req.params.cid;
 
@@ -222,24 +235,25 @@ router.post('/:sid/:cid/deletecomment', function(req, res, next) {
 
 // SETTINGS
 
-router.get('/profile/settings', function(req, res, next) {
+router.get('/profile/settings', csrfProtection, function(req, res, next) {
   var user = req.session.user;
     if (user){
       User.findOne({_id: user._id}, function(err, user){
         if(err) return next(err);
         if(user){
-         res.render('settings', {person: user, user: user});
+         res.render('settings', {person: user, user: user, csrfToken: req.csrfToken()});
         }
       })
     }
     else{
       res.render('index', {
+        csrfToken: req.csrfToken(),
         user: req.session.user
     });
   }
 });
 
-router.post('/profile/settings', function(req, res, next) {
+router.post('/profile/settings',csrfProtection, function(req, res, next) {
     var avaFile = req.files.image;
     var about = req.body.about;
     var base64String = avaFile.data.toString('base64');
@@ -265,7 +279,7 @@ router.post('/profile/settings', function(req, res, next) {
     });
 });
 
-router.get('/story/:id', function(req, res, next) {
+router.get('/story/:id', csrfProtection, function(req, res, next) {
     var id = req.params.id;
     Composition.findOne({
         _id: id
@@ -275,6 +289,7 @@ router.get('/story/:id', function(req, res, next) {
           var date = story.date;
           var d = date.toDateString();
             return res.render('story', {
+              csrfToken: req.csrfToken(),
                 date: d,
                 story: story,
                 user: req.session.user
@@ -285,7 +300,7 @@ router.get('/story/:id', function(req, res, next) {
     });
 });
 
-router.get('/search', function(req, res, next) {
+router.get('/search', csrfProtection, function(req, res, next) {
     var ask = req.query.search;
     var stories = Composition.find({
         title: {
@@ -297,13 +312,14 @@ router.get('/search', function(req, res, next) {
         if (!stories) {
             return res.send(404);
         } else res.render('search', {
+          csrfToken: req.csrfToken(),
             stories: stories,
             user: req.session.user
         });
     });
 });
 
-router.post('/deletefic/:id', function(req, res, next) {
+router.post('/deletefic/:id', csrfProtection,function(req, res, next) {
 
     if (req.session.user) {
         var id = req.params.id;
@@ -323,20 +339,22 @@ router.post('/deletefic/:id', function(req, res, next) {
     }
 });
 
-router.get('/fullsearch', function(req, res, next) {
+router.get('/fullsearch',csrfProtection, function(req, res, next) {
     if (req.session.user) {
         res.render('fullsearch', {
+          csrfToken: req.csrfToken(),
             user: req.session.user
         });
     }
     else {
     res.render('index', {
+      csrfToken: req.csrfToken(),
         user: req.session.user
     });
   }
 
 });
-router.get('/fullsearchres', function(req, res, next) {
+router.get('/fullsearchres',csrfProtection, function(req, res, next) {
     if (req.session.user) {
         var size = req.query.size;
         var rating = req.query.rating;
@@ -369,13 +387,14 @@ router.get('/fullsearchres', function(req, res, next) {
 
 });
 
-router.get('/:id/changefic', function(req, res, next) {
+router.get('/:id/changefic',csrfProtection, function(req, res, next) {
     if (req.session.user) {
         var id = req.params.id;
         Composition.findById(id, function(err, story) {
             if (err) return next(err);
             if (story)
                 res.render('changefic', {
+                  csrfToken: req.csrfToken(),
                     user: req.session.user,
                     story: story
                 });
@@ -386,7 +405,7 @@ router.get('/:id/changefic', function(req, res, next) {
     }
 });
 
-router.post('/changefic', function(req, res, next) {
+router.post('/changefic', csrfProtection,function(req, res, next) {
     var name = req.body.name;
     var title = req.body.title;
     var fandom = req.body.fandom;

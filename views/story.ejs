@@ -37,6 +37,8 @@
       </div>
 
 
+
+
       <div class='composition'>
        <p>
          <pre><%= story.text %></pre>
@@ -45,10 +47,27 @@
      </div>
 
     </div>
+    <% if(user) { %>
+      <%  if(user._id == story.author._id || user.role == 'admin') { %>
+        <% if(user._id == story.author._id) { %>
+        <form action="/<%= story._id %>/addpart" method="get">
+          <div style="float:left">
+            <button type="submit" class="btn"style="margin: 2px">Измѣнить текстъ</button>
+          </div>
+        </form>
+        <% }%>
+        <form action="/deletefic/<%= story._id %>" method="post">
+          <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+          <div style="float:left;">
+            <button type="submit" class="btn" >Сжечь сіе творѣние</button>
+          </div>
+        </form>
+
+        <%}}%>
 
     <%  if(user) { %>
     <div class="comments">
-      <label>Добавить замѣчаніе:</label>
+      <br /><h3 style="margin: 5% 0% 0%">Добавить замѣчаніе:</h3>
       <form action="/<%= story._id %>/addcomment" method="post">
         <textarea class="form-control" cols="4" style="width:700px" rows="10"  name="comment" required></textarea>
 

@@ -1,3 +1,24 @@
+function auth()
+{
+  $(document).ready(function() {
+
+    var username = $('#username').val();
+    var pass = $('#password').val();
+
+
+            $.ajax({
+               type: "POST",
+               url: "/users/login",
+               data: { username: username,
+                        password: password,
+                      },
+               success: function(result){
+                           //Receiving the result of search here
+               }
+            });
+          });
+}
+
 function validate_form(){
 
   var username = document.form.username.value;
@@ -17,8 +38,8 @@ function validate_form(){
 
 function validate_form2(){
 
-  var username = document.form2.username.value;
-   var password = document.form2.password.value;
+  var username = document.form2.usernameS.value;
+   var password = document.form2.passwordS.value;
    //Если поле name пустое выведем сообщение и предотвратим отправку формы
    if(username.length ===0){
       document.getElementById('namefal').innerHTML='*Напишитѣ Ваше імя';

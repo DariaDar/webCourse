@@ -16,8 +16,9 @@
   <form action='/addpart' method="post">
   <div class="row">
     <div class="form-group">
+      <input type="hidden" name="_csrf" value="<%=csrfToken %>">
        <label>Какое произвѣдение будетъ исправлено: </label> <i><%= story.title %></i>
-        <input type="hidden" name="name" value="<%= story.title %>">
+        <input type="hidden" name="name"  value="<%= story.title %>">
        <br/>
       <label for="comment">Что Вашей душеньке угодно сочинить:</label>
       <p>
