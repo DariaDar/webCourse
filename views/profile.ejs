@@ -3,7 +3,7 @@
 
 <head>
 	<title>
-		Мой профиль
+		Мой паспортъ
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,23 +19,41 @@
 
 <div class="container">
 	<div class="info">
-		<h2><%= author.username %></h2>
-		<label>О себѣ:</label>
-		<p>
-			<%= author.about %>
-		</p>
 
-		<img src='data:image/jpg;base64,<%= author.avatar %>' width=100 height=100 />
+<div class="avatar">
 
-		<h3>Работы автора: </h3>
-		<div class='story'>
+		<% if(author.avatar){ %>
+			<!-- <div class="view view-third">
+	     <img src="data:image/jpg;base64,<%= author.avatar %>" />
+	     <div class="mask">
+	     <h2>Title</h2>
+	     <p>Your Text</p>
+	         <a href="#" class="info">Read More</a>
+	     </div>
+	</div>-->
+		 <img src='data:image/jpg;base64,<%= author.avatar %>' />
+		<% } else {%>
+			<img src="/images/ava.jpg"/>
+			<% } %>
+				<p id="username"><%= author.username %></p>
+</div>
 
-		</div>
+<% if(author.about){ %>
+<h3>О себѣ:</h3>
+<p>
 
+	<%= author.about %>
+
+</p>
+<% } %>
 	</div>
+	<h3>Произвѣденія автора: </h3>
 
 	<ul>
-	<div>
+	<div class="story">
+		<% if(stories.length == 0) { %>
+			<h4>Сея персона столь ленива, что до сихъ поръ нѣ удосужилась создать ни одного творенія.</h4>
+			<% } else { %>
 		<% stories.forEach(function(story) { %>
 				<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
 					<p>
@@ -48,7 +66,7 @@
 						<br /><br /><b>Описание: </b><%= story.description %>
 					</p>
 				</li>
-		<% }); %>
+		<% }); }%>
 		</div>
 	</ul>
 

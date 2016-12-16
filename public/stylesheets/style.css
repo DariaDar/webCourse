@@ -1,5 +1,5 @@
 body {
-  background-image: url(http://bm.img.com.ua/nxs/img/prikol/images/large/8/2/172828_345068.jpg);
+  background-image: url('/images/kiev.jpg');
   background-size: 100%;
   background-position: fixed;
   background-attachment: fixed;
@@ -121,17 +121,34 @@ h2{
   text-align: center;
   background-color: rgb(226, 226, 226)
 }
+h3{
+  font-family:'Oranienbaum';
+  font-size: 40px;
+}
 p{
   font-family:'Oranienbaum';
-  font-size: 16px;
+  font-size: 17px;
 }
 ul{
   list-style: none;
 }
+.intro{
+  font-family:'Oranienbaum';
+  font-size: 20px;
+  text-align: center;
+  background-color: rgba(247, 247, 247, 0.87);
+  -moz-border-radius:20%;
+  -webkit-border-radius:20%;
+  border: 10px;
+  padding: 15px;
+  /*border-image: url(http://m.foto.radikal.ru/0705/0c/ac6b9be5fddb.png) 30 round;*/
+
+
+}
 .container{
   height: 80%;
   width:80%;
-  background-image: url(http://wallpapers.99px.ru/cms/mhost.php?tid=53&act=getimage&id=53903);
+  background-image: url('/images/fon.jpg');
   background-size: 450px 400px;
   background-repeat: repeat;
   box-shadow:  0px 0px 38px 1px rgba(0,0,0,0.75);
@@ -148,10 +165,17 @@ ul{
   padding: 10px;
 }
 
-
+.text{
+  background-color: rgba(249, 240, 227, 0.77);
+  text-align: center;
+  border-radius: 20%;
+  -moz-border-radius:70%;
+  -webkit-border-radius:70%;
+  padding: 2%;
+}
 /*avatar profile*/
 .avatar{
-  background-image: url(http://strana.ru/media/images/original/original15724300.jpg);
+  background-image: url('/images/avatar.jpg');
   background-size: 1100px 400px;
   background-repeat: repeat-x;
   height: 400px;
@@ -169,6 +193,16 @@ ul{
 h3{
   color:black;
   font-size: 40px;
+}
+
+a > h3{
+  font-family:'Oranienbaum';
+  color: #581f12;
+}
+
+a > h3:hover{
+  color:rgb(0, 0, 0);
+  text-decoration: none;
 }
 .info > p{
   background-color: rgba(222, 207, 199, 0.83);
@@ -200,6 +234,7 @@ a:hover{
 .row{
   background-color: rgba(242, 242, 242, 0.8);
   border-radius: 2%;
+  padding: 2%;
 }
 
 #search{
@@ -207,9 +242,43 @@ a:hover{
   padding: 10px;
 }
 #warn{
-  color:red;
+  color:black;
   text-shadow: 2px 2px rgb(77, 77, 77);
 }
+
+.pagination{
+  margin: 0% 40%;
+}
+.pagination li a{
+  color: black;
+}
+
+.btn{
+  margin:2%;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#171717), to(#4e4e4e));
+  background-image: -webkit-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: -moz-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: -ms-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: -o-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: linear-gradient(top, #171717, ##4e4e4e);
+  font-family:'Oranienbaum';
+  font-size: 16px;
+  color: rgb(207, 207, 207);
+  display: inline;
+}
+
+.btn:hover,
+.btn:focus{
+  background-color: #171717;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#171717), to(#6b6b6b));
+  background-image: -webkit-linear-gradient(top, #171717, #6b6b6b);
+  background-image: -moz-linear-gradient(top, #171717, #6b6b6b);
+  background-image: -ms-linear-gradient(top, #171717, #6b6b6b);
+  background-image: -o-linear-gradient(top, #171717, #6b6b6b);
+  background-image: linear-gradient(top, #171717, #6b6b6b);
+  color: rgb(207, 207, 207)
+}
+/*//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 nav ul {
   margin: 15px;
   padding: 0;
@@ -232,12 +301,13 @@ nav li {
 
 nav #login-trigger,
 nav #signin-trigger {
+  font-family:'Oranienbaum';
+  font-size: 17px;
   display: inline-block;
   *display: inline;
   *zoom: 1;
   height: 25px;
-  line-height: 25px;
-  font-weight: bold;
+  line-height: 30px;
   padding: 0 8px;
   text-decoration: none;
   color: #9e9e9e;
@@ -256,7 +326,7 @@ nav #login-trigger:hover,
 nav #login .active,
 nav #signin-trigger:hover,
 nav #signin .active{
-  background: #424141;
+  color: rgb(232, 232, 232)
 }
 
 nav #login-content,
@@ -266,20 +336,22 @@ nav #signin-content {
   top: 24px;
   right: 0;
   z-index: 999;
-  background: #fff;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
-  background-image: -webkit-linear-gradient(top, #fff, #eee);
-  background-image: -moz-linear-gradient(top, #fff, #eee);
-  background-image: -ms-linear-gradient(top, #fff, #eee);
-  background-image: -o-linear-gradient(top, #fff, #eee);
-  background-image: linear-gradient(top, #fff, #eee);
+  background: rgba(#161616, 0.82);
+  /*background-image: -webkit-gradient(linear, left top, left bottom, from(#242424), to(#4f4f4f));
+  background-image: -webkit-linear-gradient(top, #242424, #eee);
+  background-image: -moz-linear-gradient(top, #242424, #eee);
+  background-image: -ms-linear-gradient(top, #242424, #eee);
+  background-image: -o-linear-gradient(top, #242424, #eee);
+  background-image: linear-gradient(top, #242424, #eee);*/
+  background-image: url('/images/form.jpg');
   padding: 5px;
-  -moz-box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
+  box-shadow:  0px 0px 38px 1px rgba(0,0,0,0.75);
+  /*-moz-box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
   -webkit-box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
-  box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
-  -moz-border-radius: 3px 0 3px 3px;
-  -webkit-border-radius: 3px 0 3px 3px;
-  border-radius: 3px 0 3px 3px;
+  box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);*/
+  -moz-border-radius: 2%;
+  -webkit-border-radius: 2%;
+  border-radius:2%;
 }
 
 nav li #login-content,
@@ -291,7 +363,7 @@ nav li #signin-content  {
 /*--------------------*/
 
 #inputs input {
-  background: #f1f1f1;
+  background: rgba(#e2d7bc, 0.88);
   padding: 6px 5px;
   margin: 0 0 5px 0;
   width: 238px;
@@ -321,13 +393,14 @@ nav li #signin-content  {
 
 #login #submit,
 #signin #submit{
-  background-color: #d14545;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#e97171), to(#d14545));
-  background-image: -webkit-linear-gradient(top, #e97171, #d14545);
-  background-image: -moz-linear-gradient(top, #e97171, #d14545);
-  background-image: -ms-linear-gradient(top, #e97171, #d14545);
-  background-image: -o-linear-gradient(top, #e97171, #d14545);
-  background-image: linear-gradient(top, #e97171, #d14545);
+  font-family:'Oranienbaum';
+  background-color: #171717;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#171717), to(#4e4e4e));
+  background-image: -webkit-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: -moz-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: -ms-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: -o-linear-gradient(top, #171717, ##4e4e4e);
+  background-image: linear-gradient(top, #171717, ##4e4e4e);
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -335,13 +408,13 @@ nav li #signin-content  {
   -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
   -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-  border: 1px solid #7e1515;
-  float: left;
+  border: 1px  #7e1515;
+  float:inherit;
   height: 30px;
-  padding: 0;
-  width: 100px;
+  padding: 2px;
+  margin: 0% 20%;
+  width: 150px;
   cursor: pointer;
-  font: bold 14px Arial, Helvetica;
   color: #fff;
 }
 
@@ -349,13 +422,13 @@ nav li #signin-content  {
 #login #submit:focus,
 #signin #submit:hover,
 #signin #submit:focus{
-  background-color: #e97171;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#d14545), to(#e97171));
-  background-image: -webkit-linear-gradient(top, #d14545, #e97171);
-  background-image: -moz-linear-gradient(top, #d14545, #e97171);
-  background-image: -ms-linear-gradient(top, #d14545, #e97171);
-  background-image: -o-linear-gradient(top, #d14545, #e97171);
-  background-image: linear-gradient(top, #d14545, #e97171);
+  background-color: #171717;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#171717), to(#9c9c9c));
+  background-image: -webkit-linear-gradient(top, #171717, ##9c9c9c);
+  background-image: -moz-linear-gradient(top, #171717, ##9c9c9c);
+  background-image: -ms-linear-gradient(top, #171717, ##9c9c9c);
+  background-image: -o-linear-gradient(top, #171717, ##9c9c9c);
+  background-image: linear-gradient(top, #171717, ##9c9c9c);
 }
 
 #login #submit:active,

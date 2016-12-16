@@ -21,12 +21,12 @@ function validate_form2(){
    var password = document.form2.password.value;
    //Если поле name пустое выведем сообщение и предотвратим отправку формы
    if(username.length ===0){
-      document.getElementById('namef').innerHTML='*Напишитѣ Ваше імя';
+      document.getElementById('namefal').innerHTML='*Напишитѣ Ваше імя';
       return false;
    }
    //Если поле email пустое выведем сообщение и предотвратим отправку формы
    if(password.length === 0){
-      document.getElementById('passwordF').innerHTML='*Полѣ шифръ не можѣтъ оставаться пустымъ';
+      document.getElementById('passwordFal').innerHTML='*Полѣ шифръ не можѣтъ оставаться пустымъ';
       return false;
    }
    return true;
@@ -59,7 +59,7 @@ function create(){
       cnt++;
     }
   }
-  if(cnt == 28){
+  if(cnt == 29){
     document.getElementById("falseGenre").innerHTML = '*Опрѣделите хотя бы одинъ жанръ';
     return false;
   }

@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Добавить фанфик</title>
+    <title>Добавить </title>
+    <script src="/javascripts/scripts.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -13,25 +14,26 @@
 
 <body>
 <% layout('layout') -%>
-
-
     <div class='container'>
-      <h2>ВНИМАНЬИЦЕ! На сайте запрещено публиковать чужие работы!</h2>
+      <h2>ВНИМАНЬИЦЕ! На сайте запрѣщенъ плагиатъ!</h2>
+      <h3 id="warn">Пѣрсоны, что осмѣляться нарушить сие правило будутъ немедлѣнно изгнаны изъ салона.</h3>
         <div class='row'>
             <div class='col-md-8'>
-                <form  id="form-create" action="/createfic" method="post">
+                <form name="form_create" class="form_create" action="/createfic" method="post" onsubmit="return create()">
                     <!-- <form id="form-create"> -->
-                      <label>Название:</label>
-                      <input type='text' name='title' class='form-control' maxlength="200" required="required" />
+                      <label>Названіе:</label>
+                      <input type='text' name='title' class='form-control' maxlength="200"  />
+                      <span id="falseTitle" style="color: red"></span> <br />
 
-
-                        <label>Фэндом:</label>
-                        <input type='text' name='fandom' class='form-control' maxlength="100" required="required"/>
-                        <label>Основные персонажи (пэйринг):</label>
-                        <input type='text' name='characters' class='form-control' maxlength="400" required="required"/>
+                        <label>Происходжѣніе (Ваш ли плодъ фантазіи или Вы вдохновились чужимъ творчѣствомъ):</label>
+                        <input type='text' name='fandom' class='form-control' maxlength="100" />
+                        <span id="falseFandom" style="color: red"></span> <br />
+                        <label>Герои:</label>
+                        <input type='text' name='characters' class='form-control' maxlength="400"/>
+                        <span id="falseChar" style="color: red"></span> <br />
                     <!-- </form>
                     <form id="form-create"> -->
-                        <label>Размер:</label>
+                        <label>Размеръ:</label>
                         <div class="radio">
                             <label><input type="radio" name="size" value="Мини" checked>Мини</label>
                         </div>
@@ -43,7 +45,7 @@
                         </div>
                     <!-- </form>
                     <form id="form-create"> -->
-                        <label>Рейтинг:</label>
+                        <label>Рейтингъ:</label>
                         <div class="radio">
                             <label><input type="radio" name="rating" value="G" checked>G</label>
                         </div>
@@ -62,6 +64,7 @@
                     <!-- </form>
                     <form id="form-create"> -->
                         <label>Жанры:</label>
+                          <span id="falseGenre" style="color: red"></span> <br />
                         <div class="checkbox">
                             <label class="checkbox-inline"><input type="checkbox" name="genre" value="Гет">Гет</label>
                         </div>
@@ -152,18 +155,22 @@
                     <!-- </form>
                     <form id="form-create"> -->
                         <label>Описание:</label>
-                        <textarea class="form-control" rows="5" name="description" maxlength="1000" required="required"></textarea>
+                        <textarea class="form-control" rows="5" name="description" maxlength="1000"></textarea>
+                        <span id="falseDescr" style="color: red"></span> <br />
 
-                        <label>Комментарий от автора:</label>
-                        <textarea class="form-control" rows="5" name="authComment" maxlength="2000" required="required"></textarea>
+                        <label>Замѣчаніе отъ создатѣля:</label>
+                        <textarea class="form-control" rows="5" name="authComment" maxlength="2000"></textarea>
+                        <span id="falseComm" style="color: red"></span> <br />
 
                     <!-- </form> -->
-                      <button type='submit' class='btn btn-primary'>Сохранить и перейти к публикации</button>
+                      <button type='submit' class='btn btn-primary'>Сбѣрѣчь и сѣсть за пѣчатную машинку</button>
                 </form>
             </div>
 
         </div>
     </div>
+
+
 </body>
 
 </html>

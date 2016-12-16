@@ -3,28 +3,33 @@
   <head>
     <meta charset="utf-8">
     <title>Параметры произведѣния</title>
+    <script src="/javascripts/scripts.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <h1>Рѣдактировать произведѣніе</h1>
+
 <% layout('layout') -%>
     <div class='container'>
+      <h1>Рѣдактировать произведѣніе</h1>
         <div class='row'>
             <div class='col-md-8'>
-                <form  id="form-create" action="/changefic" method="post">
+                <form  name="form_create" action="/changefic" method="post" onsubmit="return create()">
                     <!-- <form id="form-create"> -->
                     <input type="hidden" name="name" value="<%= story.title %>">
                       <label>Название:</label>
-                      <input type='text' name='title' class='form-control' maxlength="200" value="<%= story.title %>"required="required" />
+                      <input type='text' name='title' class='form-control' maxlength="200" value="<%= story.title %>" />
+                        <span id="falseTitle" style="color: red"></span> <br />
 
 
                         <label>Фэндом:</label>
                         <input type='text' name='fandom' class='form-control' maxlength="100" value="<%= story.fandom %>"required="required"/>
+                          <span id="falseFandom" style="color: red"></span> <br />
                         <label>Основные персонажи (пэйринг):</label>
                         <input type='text' name='characters' class='form-control' maxlength="400" value="<%= story.characters %>" required="required"/>
+                        <span id="falseChar" style="color: red"></span> <br />
                     <!-- </form>
                     <form id="form-create"> -->
                         <label>Размер:</label>
@@ -58,6 +63,7 @@
                     <!-- </form>
                     <form id="form-create"> -->
                         <label>Жанры:</label>
+                          <span id="falseGenre" style="color: red"></span> <br />
                         <div class="checkbox">
                             <label class="checkbox-inline"><input type="checkbox" name="genre" value="Гет">Гет</label>
                         </div>
@@ -149,9 +155,10 @@
                     <form id="form-create"> -->
                         <label>Описание:</label>
                         <textarea class="form-control" rows="5" name="description" maxlength="1000" required="required"><%=story.description %></textarea>
-
+                        <span id="falseDescr" style="color: red"></span> <br />
                         <label>Комментарий от автора:</label>
                         <textarea class="form-control" rows="5" name="authComment" maxlength="2000" required="required"><%=story.authComment %></textarea>
+                        <span id="falseComm" style="color: red"></span> <br />
 
                     <!-- </form> -->
                       <button type='submit' class='btn btn-primary'>Сберѣчь измѣнения</button>

@@ -12,20 +12,27 @@
     <% layout('layout') -%>
     <div class="container">
       <h2>Мой архивъ:</h2>
+      <% if(stories.length == 0) { %>
+
+        <h3 style="text-align:center; background-color:rgba(241, 233, 213, 0.9)">Въ салонѣ тихо, пыльно и пусто. <br />  Только въ одномъ изъ угловъ вышиваетъ гладью пожилая княжна.</h3>
+          <% }else{ %>
       <ul>
-      <div>
+      <div class="story">
       	<% stories.forEach(function(story) { %>
       			<li><a href="/story/<%= story._id %>"> <h3><%= story.title %> </h3></a>
-      				<p>
+      				<span>
       					<form action="/<%= story._id %>/addpart" method="get">
-                  <button type="submit" class="btn btn-info">Измѣнить:</button>
+                  <button type="submit" class="btn">Измѣнить текстъ</button>
+                </form>
+                <form action="/<%= story._id %>/changefic" method="get">
+                  <button type="submit" class="btn">Измѣнить шапку</button>
                 </form>
                 <form action="/deletefic/<%= story._id %>" method="post">
                   <button type="submit" class="btn btn-danger">Сжечь сіе творѣние</button>
                 </form>
-      				</p>
+      				</span>
       			</li>
-      	<% }); %>
+      	<% });} %>
       	</div>
       </ul>
 

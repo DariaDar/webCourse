@@ -68,20 +68,24 @@ router.get('/logout', function(req, res, next) {
 
 router.get('/profile/:id', function(req, res, next){
 			var id = req.params.id;
+			var page = req.query.page;
+								console.log(page);
 			 User.findById(id, function(err, user){
 				if(err) return next(err);
 				if(!user) return res.send(404);
 				if(user){
-				 	Composition.find({author: user._id}, function(err, stories){
+					Composition.find({author: user._id}).sort( {"date" : -1} ).exec(function(err, stories){
 					if(err) return next(err);
 					if(!stories) return res.send(404);
 					else{
 						res.render('profile', {user: req.session.user, author: user, stories: stories});
 					}
 				});
-				}
+		    }
+		});
+
 			});
-});
+
 //Удаление пользователя
 router.post('/:id/delete', function(req, res, next){
 	if(req.session.user){

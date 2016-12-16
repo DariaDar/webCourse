@@ -14,23 +14,24 @@
   <% layout('layout') -%>
 <div class="container">
 
-    <h1><%= story.title %></h1>
+    <h2><%= story.title %></h2>
+
     <div class='back'>
-      <div class='photo'>
+      <!-- <div class='photo'>
         <img src='https://pp.vk.me/c411022/v411022736/745e/59fnzwhGtnI.jpg'/>
-      </div>
+      </div> -->
       <div class='text'>
         <p>
-          <b>Автор: </b><a href="/users/profile/<%= story.author._id %> "><%= story.author.username %></a>
-          <br/><strong>Фендом: </strong><%= story.fandom %>
-          <br/><strong>Персонажи: </strong><%= story.characters %>
-          <br/><strong>Рейтинг: </strong><%= story.rating %>
-          <br /><strong>Жанр: </strong><%= story.genre %>
-          <br/><strong>Размер: </strong><%= story.size %>
-          <br/><strong>Статус: </strong><%= story.status %>
+          <b>Создатѣль: </b><a href="/users/profile/<%= story.author._id %> "><%= story.author.username %></a>
+          <br/><strong>Происходжѣніе: </strong><%= story.fandom %>
+          <br/><strong>Герои: </strong><%= story.characters %>
+          <br/><strong>Рейтингъ: </strong><%= story.rating %>
+          <br /><strong>Жанръ: </strong><%= story.genre %>
+          <br/><strong>Размеръ: </strong><%= story.size %>
+          <br/><strong>Статусъ: </strong><%= story.status %>
           <br /><br /><strong>Описание: </strong><%= story.description %>
-           <br/><strong>Комментарий от автора: </strong><%= story.authComment %>
-           <br/><strong>Последнее обновление: </strong><%= story.date %>
+           <br/><strong>Замѣчаніе отъ создатѣля: </strong><%= story.authComment %>
+           <br/><strong>Последнѣе обновление: </strong><%= date %>
         </p>
 
       </div>
@@ -49,21 +50,24 @@
     <div class="comments">
       <label>Добавить замѣчаніе:</label>
       <form action="/<%= story._id %>/addcomment" method="post">
-        <textarea class="form-control" cols="4" rows="10"  name="comment" required></textarea>
+        <textarea class="form-control" cols="4" style="width:700px" rows="10"  name="comment" required></textarea>
 
-        <input type='submit' class='btn btn-primary' value="Отправить голубя" />
+        <input type='submit' class='btn' value="Отправить голубя" />
       </form>
     </div>
     <% } %>
-    <div class='list'>
-      <label>Всѣ замѣчанія:</label>
+
+      <h3>Всѣ замѣчанія:</h3>
       <%  if(story.comments.length == 0){ %>
         <h4>Какая досада. Ни одного голубя с посланіѣм не было доставлено.</h4>
         <% } else { %>
       <ul>
+        <div class='story'>
       <% story.comments.forEach(function(comment) { %>
-          <li><a href="/users/profile/<%= comment.author %>"> <%= comment.author %> </a>
-            <p>
+          <li> <p style="color: brown; font-size: 20px;">
+
+           <%= comment.author %> </p>
+            <p style="font-size:16px; padding:1%; background-color:rgba(249, 244, 235, 0.93)">
               <%= comment.body %>
             </p>
             <p>
@@ -72,14 +76,15 @@
             <% if(user) { %>
               <%  if(user._id == story.author._id || user.role == 'admin') { %>
             <form action="/<%= story._id%>/<%= comment._id %>/deletecomment" method="post">
-              <input type='submit' class='btn btn-primary' value="Сжечь сие замѣчаніе" />
+              <input type='submit' class='btn' value="Сжечь сие замѣчаніе" />
             </form>
               <% } }%>
           </li>
       <% }); %>
+      </div>
   </ul>
   <% } %>
-    </div>
+
 
 </div>
 

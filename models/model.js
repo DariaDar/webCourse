@@ -12,10 +12,6 @@ var User = new Schema({
       type: String,
       required: true,
   },
-  salt: {
-    type: String,
-    required: true
-  },
   role: String,
   stories: [{type: Schema.Types.ObjectId, ref: 'Composition'}],
   avatar: {
@@ -27,12 +23,8 @@ var User = new Schema({
   }
 });
 
-/*var admin = new User({
-    username: "root",
-    hashedPassword: "cf3e6505070433a04f7ef52e3eacb932",
-    salt: 'OFH725%okdIn&',
-    role: "admin"
-});*/
+var salt = 'OFH725%okdIn&';
+
 
 
 
@@ -49,15 +41,14 @@ User.methods.checkUsername = function(username){
 User.virtual('password')
   .set(function(password){
     this._plainPassword = password;
-    this.salt = 'OFH725%okdIn&';
-    this.hashedPassword = hash(password, this.salt);
+    this.hashedPassword = hash(password, salt);
   })
   .get(function(){
     return this._plainPassword;
   });
 
   User.methods.checkPassword = function(password){
-    return this.hashedPassword === hash(password, this.salt);
+    return this.hashedPassword === hash(password, salt);
   }
 
 

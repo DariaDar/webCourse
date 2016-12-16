@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var csrf = require('csurf');
 var bodyParser = require('body-parser');
 var busboyBodyParser = require('busboy-body-parser');
 var session = require('express-session');
@@ -12,12 +13,19 @@ var engine = require('ejs-locals');
 //var expressLayouts = require('express-ejs-layouts');
 
 
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
 var api = require('./routes/api');
 
+
+var csrfProtection = csrf({ cookie: true });
+var parseForm = bodyParser.urlencoded({ extended: false });
+
 var app = express();
+
+app.use(cookieParser());
 
 app.use(session({
     secret: 'Nothing Lasts Forever',

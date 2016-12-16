@@ -222,18 +222,6 @@ router.post('/:sid/:cid/deletecomment', function(req, res, next) {
 
 // SETTINGS
 
-// function authorStories(id) {
-//     var stories = Composition.find({
-//         author: id
-//     }, function(err, stories) {
-//         if (err) return next(err);
-//         if (stories) {
-//             return stories;
-//         } else return res.send(500);
-//     });
-// }
-
-
 router.get('/profile/settings', function(req, res, next) {
   var user = req.session.user;
     if (user){

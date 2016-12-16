@@ -11,16 +11,17 @@
   </head>
   <body>
     <% layout('layout') -%>
-    
+
 <div class="container">
   <form action='/addpart' method="post">
+  <div class="row">
     <div class="form-group">
        <label>Какое произвѣдение будетъ исправлено: </label> <i><%= story.title %></i>
         <input type="hidden" name="name" value="<%= story.title %>">
        <br/>
       <label for="comment">Что Вашей душеньке угодно сочинить:</label>
       <p>
-        <textarea class="form-control" rows="20" lines="12" name="text" wrap='hard' value="<%=story.text %>" cols="10"><%=story.text %></textarea>
+        <textarea class="form-control" rows="20" lines="12" name="text" wrap='hard' style="width:1000px"><%=story.text %></textarea>
       </p>
 
     </div>
@@ -35,6 +36,7 @@
     </div>
 
       <button type='submit' class='btn btn-primary'>Выставить на всеобщее обозрѣние</button>
+        </div>
   </form>
 </div>
 

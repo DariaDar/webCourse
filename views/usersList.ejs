@@ -15,7 +15,10 @@
     <h1>Добро пожаловать, Админ!</h1>
     <h2>Список пользователей: </h2>
 
+
+
     <ul>
+      <div class="story">
     <% users.forEach(function(person) { %>
         <li><a href="/users/profile/<%= person._id %>"> <%= person.username %> </a>
           <form action="/users/<%= person._id %>/delete" method="post">
@@ -23,7 +26,9 @@
           </form>
         </li>
     <% }); %>
+    </div>
 </ul>
+
 
 </div>
     <script src="js/scripts.js"></script>

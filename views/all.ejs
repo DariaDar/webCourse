@@ -13,7 +13,7 @@
 <% layout('layout') -%>
 
 <div class="container">
-<h2>Все сочиненія:</h2>
+<h2>Всѣ сочинѣнія:</h2>
     <ul>
     <div class="story">
       <% stories.forEach(function(story) { %>
@@ -32,6 +32,20 @@
       <% }); %>
       </div>
     </ul>
+
+    <!-- <ul class="pagination">
+      <% if(curr == 1) { %>
+        <li class="disabled"><a href="#"><<</a></li>
+        <% } else {%>
+      <li><a href="/all?page=<%= curr - 1%>">«</a></li>
+      <% }%>
+
+      <% for(var i = curr || 1; i < pageCount; i++) { %>
+        <li><a href="/all?page=<%= i + 1 %>"><%= i+1%></a></li>
+        <% } %>
+
+
+    </ul> -->
     <ul class="pagination">
     <% for(var i = 0; i < pageCount; i++) { %>
       <li><a href="/all?page=<%= i + 1 %>"><%= i+1%></a></li>

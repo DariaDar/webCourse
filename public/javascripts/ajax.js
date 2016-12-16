@@ -59,10 +59,11 @@ $(document).ready(function() {
             $('#results').html("<h3> Какая досада.. Въ архивахъ салона ничего не найдено. </h3>");
           }
           else{
+            $('#results').html("<p></p>");
             stories.forEach(function(story){
               $('#results').append("<a href=\'/story/" + story._id + "'> <h3>"+ story.title + " </h3>");
-              $('#results').append("<b>Создатѣль: </b><a href=\"/users/profile/" + story.author._id + ">" + story.author.username + "</a>");
-              $('#results').append("<br/><b>Происходжѣніе: </b>" + story.fandom);
+              /*$('#results').append("<b>Создатѣль: </b><a href=\"/users/profile/" + story.author._id + ">" + story.author.username + "</a>");*/
+              $('#results').append("<b>Происходжѣніе: </b>" + story.fandom);
               $('#results').append("<br/><b>Герои: </b>" + story.characters);
               $('#results').append("<br/><b>Рейтингъ: </b>" + story.rating);
               $('#results').append("<br/><b>Жанръ: </b>" + story.genre);

@@ -35,7 +35,9 @@ var Composition = new Schema({
   authComment: String,
   text: {
     type: String,
-  }, //parts:{pTitle: String, text: String}
+  },
+  comments: [{ body: String, date: String, author:{ type: String, ref: "User"}}],
+  date: { type: Date }
 });
 
 
